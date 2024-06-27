@@ -12,5 +12,3 @@ RUN yarn install
 ADD . /app
 
 RUN yarn build
-
-RUN yarn start
