@@ -4,8 +4,7 @@ import { useFHIRPathUI } from './hooks';
 import Editor from '@monaco-editor/react';
 import { Allotment } from "allotment";
 import "allotment/dist/style.css";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faShare, faPlay, faDownload } from '@fortawesome/free-solid-svg-icons';
+import { Play, ShareFat, FileArrowDown } from "@phosphor-icons/react";
 
 const App: React.FC = () => {
   const { url, handleUrlChange, handleFetch,
@@ -18,7 +17,7 @@ const App: React.FC = () => {
         <>
           <div className="resourceBlock">
             <input className="input" type="url" value={url} onChange={handleUrlChange} />
-            <button onClick={handleFetch}> <FontAwesomeIcon icon={faDownload} /></button>
+            <button onClick={handleFetch}><FileArrowDown fontSize={24}/></button>
           </div>
           <Editor height="100vh" defaultLanguage="json" value={resource} onChange={(value) => setResource(value as string)} />
         </>
@@ -30,8 +29,8 @@ const App: React.FC = () => {
         </div>
       </Allotment>
       <div className="buttonsBlock">
-        <button onClick={handleExecute}><FontAwesomeIcon icon={faPlay} /></button>
-        <button onClick={handleShare}><FontAwesomeIcon icon={faShare} /></button>
+        <button onClick={handleExecute}><Play fontSize={24}/></button>
+        <button onClick={handleShare}><ShareFat fontSize={24} /></button>
       </div>
     </div>
   );
