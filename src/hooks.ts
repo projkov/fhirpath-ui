@@ -43,8 +43,8 @@ export function useFHIRPathUI() {
     };
 
     const handleUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => setUrl(e.target.value);
-    const handleResourceChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => setResource(e.target.value);
-    const handleExpressionChange = (e: React.ChangeEvent<HTMLInputElement>) => setExpression(e.target.value);
+    const handleResourceChange = (value: string) => setResource(value);
+    const handleExpressionChange = (value: string) => setExpression(value);
 
     const getUrlParams = (name: string): string | null => {
         const params = new URLSearchParams(window.location.search);

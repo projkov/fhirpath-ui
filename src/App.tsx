@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import { useFHIRPathUI } from './hooks';
+import Editor from '@monaco-editor/react';
 
 const App: React.FC = () => {
   const { url, handleUrlChange, handleFetch, handleResourceChange,
@@ -19,20 +20,20 @@ const App: React.FC = () => {
       <div>
         <label>
           Resource:
-          <textarea value={resource} onChange={handleResourceChange} rows={10} cols={50} />
+          <Editor height="30vh" defaultLanguage="json" value={resource} onChange={() => handleResourceChange}/>
         </label>
       </div>
       <div>
         <label>
           Expression:
-          <input type="text" value={expression} onChange={handleExpressionChange} />
+          <Editor height="30vh" defaultLanguage="ruby" value={expression} onChange={() => handleExpressionChange}/>
         </label>
         <button onClick={handleExecute}>Execute</button>
       </div>
       <div>
         <label>
           Result:
-          <textarea value={result} readOnly rows={10} cols={50} />
+          <Editor height="30vh" defaultLanguage="json" value={result} />
         </label>
       </div>
       <div>
