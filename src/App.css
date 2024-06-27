@@ -1,5 +1,7 @@
 .App {
   text-align: center;
+  position: relative;
+  height: 100vh;
 }
 
 .App-logo {
@@ -32,7 +34,54 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
+}
+
+button {
+  font-size: 16px;
+  min-width: 50px;
+  min-height: 50px;
+  color: #FFFFFF;
+  background-color: #4CABA6;
+  border: 0px;
+  border-radius: 8px;
+}
+
+button:hover {
+  background-color: #1B7F7A;
+  cursor: pointer;
+}
+
+.input {
+  width: 100%;
+  padding: 10px;
+  border: 2px solid #4CABA6;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.input:focus {
+  border-color: #1B7F7A;
+  outline: none;
+  box-shadow: 0 0 8px rgba(102, 175, 233, 0.6);
+}
+
+.buttonsBlock {
+  position: absolute;
+  right: 25px;
+  bottom: 25px;
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+}
+
+.resourceBlock {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 25px;
+  padding: 30px;
 }

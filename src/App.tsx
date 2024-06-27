@@ -4,40 +4,35 @@ import { useFHIRPathUI } from './hooks';
 import Editor from '@monaco-editor/react';
 import { Allotment } from "allotment";
 import "allotment/dist/style.css";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faShare, faPlay, faDownload } from '@fortawesome/free-solid-svg-icons';
 
 const App: React.FC = () => {
   const { url, handleUrlChange, handleFetch,
     resource, expression, setExpression, setResource,
-    handleExecute, result, handleShare, shareLink } = useFHIRPathUI();
+    handleExecute, result, handleShare } = useFHIRPathUI();
 
   return (
-    <div className="App" style={{ height: '100vh' }}>
+    <div className="App">
       <Allotment defaultSizes={[550, 250]}>
-        <div>
-          <div>
-            <input type="text" value={url} onChange={handleUrlChange} />
-            <button onClick={handleFetch}>Get</button>
+        <>
+          <div className="resourceBlock">
+            <input className="input" type="url" value={url} onChange={handleUrlChange} />
+            <button onClick={handleFetch}> <FontAwesomeIcon icon={faDownload} /></button>
           </div>
-          <div>
-            <Editor height="30vh" defaultLanguage="json" value={resource} onChange={(value) => setResource(value as string)} />
-          </div>
-        </div>
+          <Editor height="100vh" defaultLanguage="json" value={resource} onChange={(value) => setResource(value as string)} />
+        </>
         <div style={{ height: '100vh' }}>
-          <Allotment defaultSizes={[100,300]} vertical>
-            <div>
-              <div>
-                <Editor height="30vh" defaultLanguage="ruby" value={expression} onChange={(value) => setExpression(value as string)} />
-                <button onClick={handleExecute}>Execute</button>
-              </div>
-            </div>
-            <div>
-              <Editor height="30vh" defaultLanguage="json" value={result} />
-              <button onClick={handleShare}>Share</button>
-              {shareLink && <p>Shareable link: <a href={shareLink}>{shareLink}</a></p>}
-            </div>
+          <Allotment defaultSizes={[100, 300]} vertical>
+            <Editor defaultLanguage="javascript" value={expression} onChange={(value) => setExpression(value as string)} />
+            <Editor defaultLanguage="json" value={result} />
           </Allotment>
         </div>
       </Allotment>
+      <div className="buttonsBlock">
+        <button onClick={handleExecute}><FontAwesomeIcon icon={faPlay} /></button>
+        <button onClick={handleShare}><FontAwesomeIcon icon={faShare} /></button>
+      </div>
     </div>
   );
 };
