@@ -11,6 +11,9 @@ export function useFHIRPathUI() {
     const [result, setResult] = useState<string>('');
     const [shareLink, setShareLink] = useState<string>('');
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const isGetResourceActive = url !== ''
+    const isExecuteActive = resource !== '' && expression !== ''
+    const isShareActive = url !== '' && expression !== ''
 
     const handleFetch = async () => {
         setIsLoading(true)
@@ -74,5 +77,8 @@ export function useFHIRPathUI() {
         setResource,
         setExpression,
         isLoading,
+        isExecuteActive,
+        isGetResourceActive,
+        isShareActive
     }
 }

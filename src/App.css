@@ -55,6 +55,11 @@ button:hover {
   cursor: pointer;
 }
 
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 .input {
   width: 100%;
   padding: 10px;

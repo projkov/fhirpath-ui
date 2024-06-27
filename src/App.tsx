@@ -10,7 +10,7 @@ import Loader from './components/loader';
 const App: React.FC = () => {
   const { url, handleUrlChange, handleFetch,
     resource, expression, setExpression, setResource,
-    handleExecute, result, handleShare, isLoading } = useFHIRPathUI();
+    handleExecute, result, handleShare, isLoading, isExecuteActive, isGetResourceActive, isShareActive } = useFHIRPathUI();
 
   return (
     <div className="App">
@@ -19,7 +19,7 @@ const App: React.FC = () => {
         <>
           <div className="resourceBlock">
             <input className="input" type="url" value={url} onChange={handleUrlChange} />
-            <button onClick={handleFetch}><FileArrowDown fontSize={24}/></button>
+            <button onClick={handleFetch} disabled={!isGetResourceActive}><FileArrowDown fontSize={24}/></button>
           </div>
           <Editor height="100vh" defaultLanguage="json" value={resource} onChange={(value) => setResource(value as string)} />
         </>
@@ -31,8 +31,8 @@ const App: React.FC = () => {
         </div>
       </Allotment>
       <div className="buttonsBlock">
-        <button onClick={handleExecute}><Play fontSize={24} /></button>
-        <button onClick={handleShare}><ShareFat fontSize={24} /></button>
+        <button onClick={handleExecute} disabled={!isExecuteActive}><Play fontSize={24} /></button>
+        <button onClick={handleShare} disabled={!isShareActive}><ShareFat fontSize={24} /></button>
       </div>
     </div>
   );
