@@ -43,8 +43,6 @@ export function useFHIRPathUI() {
     };
 
     const handleUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => setUrl(e.target.value);
-    const handleResourceChange = (value: string) => setResource(value);
-    const handleExpressionChange = (value: string) => setExpression(value);
 
     const getUrlParams = (name: string): string | null => {
         const params = new URLSearchParams(window.location.search);
@@ -66,7 +64,7 @@ export function useFHIRPathUI() {
         handleExecute,
         handleShare,
         handleUrlChange,
-        handleResourceChange,
-        handleExpressionChange,
+        setResource,
+        setExpression,
     }
 }
