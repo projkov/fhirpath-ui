@@ -5,14 +5,16 @@ import Editor from '@monaco-editor/react';
 import { Allotment } from "allotment";
 import "allotment/dist/style.css";
 import { Play, ShareFat, FileArrowDown } from "@phosphor-icons/react";
+import Loader from './components/loader';
 
 const App: React.FC = () => {
   const { url, handleUrlChange, handleFetch,
     resource, expression, setExpression, setResource,
-    handleExecute, result, handleShare } = useFHIRPathUI();
+    handleExecute, result, handleShare, isLoading } = useFHIRPathUI();
 
   return (
     <div className="App">
+      {isLoading ? <Loader /> : null}
       <Allotment defaultSizes={[550, 250]}>
         <>
           <div className="resourceBlock">
@@ -29,7 +31,7 @@ const App: React.FC = () => {
         </div>
       </Allotment>
       <div className="buttonsBlock">
-        <button onClick={handleExecute}><Play fontSize={24}/></button>
+        <button onClick={handleExecute}><Play fontSize={24} /></button>
         <button onClick={handleShare}><ShareFat fontSize={24} /></button>
       </div>
     </div>

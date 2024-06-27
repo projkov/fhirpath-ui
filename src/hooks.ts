@@ -10,17 +10,21 @@ export function useFHIRPathUI() {
     const [expression, setExpression] = useState<string>('');
     const [result, setResult] = useState<string>('');
     const [shareLink, setShareLink] = useState<string>('');
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const handleFetch = async () => {
+        setIsLoading(true)
         try {
             const response = await axios.get(url);
             setResource(JSON.stringify(response.data, null, 2));
         } catch (error) {
             console.error('Error fetching data:', error);
         }
+        setIsLoading(false)
     };
 
     const handleExecute = async () => {
+        setIsLoading(true)
         try {
             const parsedResource = JSON.parse(resource);
             const response = await axios.post<EvaluateResponse>(evaluateURL, {
@@ -31,6 +35,7 @@ export function useFHIRPathUI() {
         } catch (error) {
             console.error('Error executing expression:', error);
         }
+        setIsLoading(false)
     };
 
     const handleShare = () => {
@@ -68,5 +73,6 @@ export function useFHIRPathUI() {
         handleUrlChange,
         setResource,
         setExpression,
+        isLoading,
     }
 }
