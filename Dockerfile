@@ -1,13 +1,16 @@
-FROM node:14-alpine
+FROM node:lts as builder
+
+RUN mkdir -p /app/src
 
 WORKDIR /app
 
-COPY package*.json ./
+ADD package.json package.json
+ADD yarn.lock yarn.lock
 
-RUN npm install
+RUN yarn install
 
-COPY . .
+ADD . /app
 
-RUN npm run build
+RUN yarn build
 
-CMD ["npm", "start"]
+RUN yarn start
