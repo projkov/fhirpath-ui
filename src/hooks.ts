@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { EvaluateResponse } from "./interfaces";
 
 export function useFHIRPathUI() {
+    const fhirPathServiceURL = process.env.FHIRPATH_URL || 'http://localhost:5000';
+    const evaluateURL = fhirPathServiceURL + '/evaluate'
     const [url, setUrl] = useState<string>('');
     const [resource, setResource] = useState<string>('');
     const [expression, setExpression] = useState<string>('');
@@ -21,7 +23,7 @@ export function useFHIRPathUI() {
     const handleExecute = async () => {
         try {
             const parsedResource = JSON.parse(resource);
-            const response = await axios.post<EvaluateResponse>('http://localhost:5000/evaluate', {
+            const response = await axios.post<EvaluateResponse>(evaluateURL, {
                 resource: parsedResource,
                 expression: expression,
             });
