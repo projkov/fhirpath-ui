@@ -76,6 +76,9 @@ button:hover {
   display: flex;
   flex-direction: row;
   gap: 12px;
+  padding: 12px;
+  border-radius: 8px;
+  background-color: rgba(242, 205, 172, .6);
 }
 
 .resourceBlock {
