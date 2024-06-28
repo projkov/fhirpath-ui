@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 import { EvaluateResponse } from "./interfaces";
 
 export function useFHIRPathUI() {
-    const fhirPathServiceURL = process.env.FHIRPATH_URL || 'http://localhost:5000';
+    console.log('env', process.env)
+    const fhirPathServiceURL = process.env.REACT_APP_FHIRPATH_URL || 'http://localhost:5000';
     const evaluateURL = fhirPathServiceURL + '/evaluate'
     const [url, setUrl] = useState<string>('');
     const [resource, setResource] = useState<string>('');
