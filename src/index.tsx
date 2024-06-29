@@ -3,6 +3,13 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import ReactGA from "react-ga4";
+
+
+const measurementId = process.env.REACT_APP_GA4ID || ''
+if (measurementId)  {
+  ReactGA.initialize(measurementId);
+}
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
