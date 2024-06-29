@@ -15,6 +15,7 @@ Things that I want to add in the near future:
 4. Ability to share a custom FHIR resource, not only those available by URL.
 
 Thanks,
+
 Pavel Rozhkov
 ### Examples
 [List of combo parameters for Observation resource](https://fhirpath.me?url=https%3A%2F%2Fwww.hl7.org%2Ffhir%2Fus%2Fcore%2FCapabilityStatement-us-core-server.json&expression=CapabilityStatement.rest.resource.where(%0A%20%20%20%20type%3D'Observation').extension.where(%0A%20%20%20%20%20%20%20%20url%3D'http%3A%2F%2Fhl7.org%2Ffhir%2FStructureDefinition%2Fcapabilitystatement-search-parameter-combination'))
@@ -38,9 +39,9 @@ yarn start
 The UI will be available at [http://localhost:3000](http://localhost:3000).
 
 ### Contribute
-**Found or want some new features?** Feel free to create issues.
-**Want to contribute?** Feel free to fork the repository and send merge requests.
-**Anything else?** You can write an email to me at prozskov@gmail.com.
+* **Found or want some new features?** Feel free to create issues.
+* **Want to contribute?** Feel free to fork the repository and send merge requests.
+* **Anything else?** You can write an email to me at prozskov@gmail.com.
 
 ### Want to use it?
 1. Use the official website [http://fhirpath.me](https://fhirpath.me).
