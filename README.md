@@ -18,8 +18,8 @@ Thanks,
 
 Pavel Rozhkov
 ### Examples
-[List of combo parameters for Observation resource](https://fhirpath.me?url=https%3A%2F%2Fwww.hl7.org%2Ffhir%2Fus%2Fcore%2FCapabilityStatement-us-core-server.json&expression=CapabilityStatement.rest.resource.where(%0A%20%20%20%20type%3D'Observation').extension.where(%0A%20%20%20%20%20%20%20%20url%3D'http%3A%2F%2Fhl7.org%2Ffhir%2FStructureDefinition%2Fcapabilitystatement-search-parameter-combination'))
-[List of Patient IDs with gender equal to 'male'](https://fhirpath.me?url=https%3A%2F%2Fserver.fire.ly%2FPatient&expression=Bundle.entry.resource.where(gender%3D'male').id)
+1. [List of combo parameters for Observation resource](https://fhirpath.me?url=https%3A%2F%2Fwww.hl7.org%2Ffhir%2Fus%2Fcore%2FCapabilityStatement-us-core-server.json&expression=CapabilityStatement.rest.resource.where(%0A%20%20%20%20type%3D'Observation').extension.where(%0A%20%20%20%20%20%20%20%20url%3D'http%3A%2F%2Fhl7.org%2Ffhir%2FStructureDefinition%2Fcapabilitystatement-search-parameter-combination'))
+2. [List of Patient IDs with gender equal to 'male'](https://fhirpath.me?url=https%3A%2F%2Fserver.fire.ly%2FPatient&expression=Bundle.entry.resource.where(gender%3D'male').id)
 ### Features
 1. Evaluate FHIRPath expressions online.
 2. Retrieve FHIR resources by link.
