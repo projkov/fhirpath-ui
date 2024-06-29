@@ -31,16 +31,21 @@ const App: React.FC = () => {
             <input className="input" type="url" value={url} onChange={handleUrlChange} placeholder='You can paste the URL to get the FHIR Resource' />
             <button onClick={handleFetch} disabled={!isGetResourceActive}><FileArrowDown fontSize={24} /></button>
           </div>
-          <Editor height="100vh" defaultLanguage="json" value={resource} onChange={(value) => setResource(value as string)} options={{ formatOnPaste: true, formatOnType: true }}/>
+          <Editor height="100vh" defaultLanguage="json" value={resource} onChange={(value) => setResource(value as string)} options={{ formatOnPaste: true, formatOnType: true }} />
         </>
         <div style={{ height: '100vh' }}>
           <Allotment defaultSizes={[100, 300]} vertical>
-            <Editor defaultLanguage="ruby" value={expression} onChange={(value) => setExpression(value as string)} options={{ formatOnPaste: true, formatOnType: true }} />
-            <Editor defaultLanguage="json" value={result} options={{
-              formatOnPaste: true,
-              formatOnType: true,
-              readOnly: true,
-            }} />
+            <div className='editorWrapper'>
+              <Editor defaultLanguage="ruby" value={expression} onChange={(value) => setExpression(value as string)} options={{ formatOnPaste: true, formatOnType: true }} />
+            </div>
+
+            <div className='editorWrapper'>
+              <Editor defaultLanguage="json" value={result} options={{
+                formatOnPaste: true,
+                formatOnType: true,
+                readOnly: true,
+              }} />
+            </div>
           </Allotment>
         </div>
       </Allotment>

@@ -93,3 +93,8 @@ button:disabled {
   gap: 25px;
   padding: 30px;
 }
+
+.editorWrapper {
+  padding-top: 12px;
+  height: 100vh;
+}
