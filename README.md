@@ -1,46 +1,51 @@
-# Getting Started with Create React App
+# FHIRPath UI
+## Open-source UI for FHIRPath
+**Official website**: [https://fhirpath.me](https://fhirpath.me)
+### Motivation
+Lately, I've been working a lot with FHIR IG and FHIR data. I frequently need to check the quality of data, extensions, etc. I found that FHIRPath is a perfect tool to manipulate FHIR data. Sometimes, I need to share the result of a FHIRPath expression for a target FHIR resource with my colleagues for work or educational purposes.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A lot of web services exist with the ability to run FHIRPath expressions. However, I couldn't find a service where I could easily get a resource through a URL, write a FHIRPath expression, and share it. So, I decided to implement it myself. The current version is under development and has many problems, but I hope you find it useful. It's open-source, so you can do anything you want with it.
 
-## Available Scripts
+If you have any ideas on how to improve it, you are welcome to share them. You can email me at prozskov@gmail.com or create an issue on GitHub.
 
-In the project directory, you can run:
+Things that I want to add in the near future:
+1. Syntax highlighting for FHIRPath;
+2. Ability to set a color scheme;
+3. Ability to change the font size;
+4. Ability to share a custom FHIR resource, not only those available by URL.
 
-### `npm start`
+Thanks,
+Pavel Rozhkov
+### Examples
+[List of combo parameters for Observation resource](https://fhirpath.me?url=https%3A%2F%2Fwww.hl7.org%2Ffhir%2Fus%2Fcore%2FCapabilityStatement-us-core-server.json&expression=CapabilityStatement.rest.resource.where(%0A%20%20%20%20type%3D'Observation').extension.where(%0A%20%20%20%20%20%20%20%20url%3D'http%3A%2F%2Fhl7.org%2Ffhir%2FStructureDefinition%2Fcapabilitystatement-search-parameter-combination'))
+[List of Patient IDs with gender equal to 'male'](https://fhirpath.me?url=https%3A%2F%2Fserver.fire.ly%2FPatient&expression=Bundle.entry.resource.where(gender%3D'male').id)
+### Features
+1. Evaluate FHIRPath expressions online.
+2. Retrieve FHIR resources by link.
+3. Share your FHIRPath expressions with colleagues in one click.
+4. Open-source.
+### Local Development
+#### Docker and Docker Compose
+```bash
+docker compose up
+```
+#### YARN
+```bash
+yarn install
+yarn start
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+The UI will be available at [http://localhost:3000](http://localhost:3000).
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### Contribute
+**Found or want some new features?** Feel free to create issues.
+**Want to contribute?** Feel free to fork the repository and send merge requests.
+**Anything else?** You can write an email to me at prozskov@gmail.com.
 
-### `npm test`
+### Want to use it?
+1. Use the official website [http://fhirpath.me](https://fhirpath.me).
+2. Use this source code.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+### References
+1. [FHIRPath documentation](https://build.fhir.org/fhirpath.html)
+2. [FHIRPath implementation by beda.software](https://github.com/beda-software/fhirpath-py)
