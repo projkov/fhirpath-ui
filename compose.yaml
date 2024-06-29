@@ -1,0 +1,12 @@
+services:
+  frontend:
+    build: .
+    environment:
+      REACT_APP_FHIRPATH_URL: http://localhost:5000
+    ports:
+    - '3000:3000'
+    command: yarn start
+  backend:
+    image: ghcr.io/projkov/fhirpath-py-as-service:3581447a60e2e6803b940f0ad025f3ff460dcc0f
+    ports:
+    - '5000:5000'
