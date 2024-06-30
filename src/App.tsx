@@ -35,8 +35,8 @@ const App: React.FC = () => {
           <input className="input" type="url" value={url} onChange={handleUrlChange} placeholder='You can paste the URL to get the FHIR Resource' />
         </div>
         <div className="buttonsBlock">
-          <button onClick={handleFetch} disabled={!isGetResourceActive}><FileArrowDown fontSize={24} /></button>
-          <button onClick={handleExecute} disabled={!isExecuteActive}><Play fontSize={24} /></button>
+          <button onClick={() => handleFetch(url)} disabled={!isGetResourceActive}><FileArrowDown fontSize={24} /></button>
+          <button onClick={() => handleExecute(resource, expression)} disabled={!isExecuteActive}><Play fontSize={24} /></button>
           <button onClick={handleShare} disabled={!isShareActive}><ShareFat fontSize={24} /></button>
         </div>
       </div>
