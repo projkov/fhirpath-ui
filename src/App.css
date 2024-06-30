@@ -1,6 +1,5 @@
 .App {
   text-align: center;
-  position: relative;
   height: 100vh;
 }
 
@@ -45,13 +44,13 @@ button {
   min-width: 50px;
   min-height: 50px;
   color: #FFFFFF;
-  background-color: #4CABA6;
+  background-color: #F2C849;
   border: 0px;
   border-radius: 8px;
 }
 
 button:hover {
-  background-color: #1B7F7A;
+  background-color: #F27127;
   cursor: pointer;
 }
 
@@ -63,27 +62,21 @@ button:disabled {
 .input {
   width: 100%;
   padding: 10px;
-  border: 2px solid #4CABA6;
+  border: 2px solid #03588C;
   border-radius: 5px;
   font-size: 16px;
 }
 
 .input:focus {
-  border-color: #1B7F7A;
+  border-color: #F244A4;
   outline: none;
-  box-shadow: 0 0 8px rgba(102, 175, 233, 0.6);
+  /* box-shadow: 0 0 8px rgba(102, 175, 233, 0.6); */
 }
 
 .buttonsBlock {
-  position: absolute;
-  right: 25px;
-  bottom: 25px;
   display: flex;
   flex-direction: row;
   gap: 12px;
-  padding: 12px;
-  border-radius: 8px;
-  background-color: rgba(242, 205, 172, .6);
 }
 
 .resourceBlock {
@@ -97,4 +90,53 @@ button:disabled {
 .editorWrapper {
   padding-top: 12px;
   height: 100vh;
+}
+
+.mainContainer {
+  height: 100vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  max-width: 100px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  padding-left: 6px;
+  padding-right: 6px;
+  background-color: rgba(4, 217, 217, 0.1);
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100%;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 48px;
+  padding: 12px;
+  background-color: rgba(4, 217, 217, 0.5);
+}
+
+.searchBlock {
+  display: flex;
+  width: 100%;
+}
+
+.editor {
+  height: 100vh;
+}
+
+.logo {
+  width: 50px;
+  border-radius: 8px;
 }
