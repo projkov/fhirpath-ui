@@ -4,41 +4,42 @@ import { EvaluateResponse } from "./interfaces";
 
 export function useFHIRPathUI() {
     const fhirPathServiceURL = process.env.REACT_APP_FHIRPATH_URL || 'http://localhost:5000';
-    const evaluateURL = fhirPathServiceURL + '/evaluate'
+    const evaluateURL = fhirPathServiceURL + '/evaluate';
     const [url, setUrl] = useState<string>('');
     const [resource, setResource] = useState<string>('');
     const [expression, setExpression] = useState<string>('');
     const [result, setResult] = useState<string>('');
     const [shareLink, setShareLink] = useState<string>('');
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    const isGetResourceActive = url !== ''
-    const isExecuteActive = resource !== '' && expression !== ''
-    const isShareActive = url !== '' && expression !== ''
+    const [initialRun, setInitialRun] = useState<boolean>(true); // Track initial run
+    const isGetResourceActive = url !== '';
+    const isExecuteActive = resource !== '' && expression !== '';
+    const isShareActive = url !== '' && expression !== '';
 
-    const handleFetch = async () => {
-        setIsLoading(true)
+    const handleFetch = async (fetchUrl: string) => {
+        setIsLoading(true);
         try {
-            const response = await axios.get(url);
+            const response = await axios.get(fetchUrl);
             setResource(JSON.stringify(response.data, null, 2));
         } catch (error) {
             console.error('Error fetching data:', error);
         }
-        setIsLoading(false)
+        setIsLoading(false);
     };
 
-    const handleExecute = async () => {
-        setIsLoading(true)
+    const handleExecute = async (executeResource: string, executeExpression: string) => {
+        setIsLoading(true);
         try {
-            const parsedResource = JSON.parse(resource);
+            const parsedResource = JSON.parse(executeResource);
             const response = await axios.post<EvaluateResponse>(evaluateURL, {
                 resource: parsedResource,
-                expression: expression,
+                expression: executeExpression,
             });
             setResult(JSON.stringify(response.data, null, 2));
         } catch (error) {
             console.error('Error executing expression:', error);
         }
-        setIsLoading(false)
+        setIsLoading(false);
     };
 
     const handleShare = () => {
@@ -60,9 +61,27 @@ export function useFHIRPathUI() {
     };
 
     useEffect(() => {
-        setUrl(decodeURIComponent(getUrlParams('url') ?? ''))
-        setExpression(decodeURIComponent(getUrlParams('expression') ?? ''));
+        const urlFromParams = getUrlParams('url');
+        const expressionFromParams = getUrlParams('expression');
+
+        if (urlFromParams && expressionFromParams) {
+            const decodedUrl = decodeURIComponent(urlFromParams);
+            const decodedExpression = decodeURIComponent(expressionFromParams);
+
+            setUrl(decodedUrl);
+            setExpression(decodedExpression);
+
+            handleFetch(decodedUrl);
+        }
     }, []);
+
+    useEffect(() => {
+        if (initialRun && resource && expression) {
+            handleExecute(resource, expression);
+            setInitialRun(false);
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [resource, expression, initialRun]);
 
     return {
         resource,
@@ -80,5 +99,5 @@ export function useFHIRPathUI() {
         isExecuteActive,
         isGetResourceActive,
         isShareActive
-    }
+    };
 }
