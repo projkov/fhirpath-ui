@@ -62,15 +62,15 @@ button:disabled {
 .input {
   width: 100%;
   padding: 10px;
-  border: 2px solid #03588C;
+  border: 1px solid #03588C;
   border-radius: 5px;
   font-size: 16px;
 }
 
 .input:focus {
-  border-color: #F244A4;
+  border: 2px solid #F244A4;
   outline: none;
-  /* box-shadow: 0 0 8px rgba(102, 175, 233, 0.6); */
+  box-shadow: 0 0 8px rgba(242, 68, 164, 0.6);
 }
 
 .buttonsBlock {
