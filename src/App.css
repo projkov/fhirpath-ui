@@ -44,13 +44,13 @@ button {
   min-width: 50px;
   min-height: 50px;
   color: #FFFFFF;
-  background-color: #F2C849;
+  background-color: #683F73;
   border: 0px;
   border-radius: 8px;
 }
 
 button:hover {
-  background-color: #F27127;
+  background-color: #A66885;
   cursor: pointer;
 }
 
@@ -68,7 +68,7 @@ button:disabled {
 }
 
 .input:focus {
-  border: 2px solid #F244A4;
+  border: 2px solid #D96523;
   outline: none;
   box-shadow: 0 0 8px rgba(242, 68, 164, 0.6);
 }
@@ -103,7 +103,7 @@ button:disabled {
   justify-content: space-between;
   gap: 48px;
   padding: 12px;
-  background-color: rgba(4, 217, 217, 0.5);
+  background-color: #88E8F2;
 }
 
 .searchBlock {
