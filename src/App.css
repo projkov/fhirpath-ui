@@ -40,17 +40,17 @@
 }
 
 button {
-  font-size: 16px;
+  font-size: 12px;
   min-width: 50px;
   min-height: 50px;
   color: #FFFFFF;
-  background-color: #683F73;
+  background-color: #F27D16;
   border: 0px;
   border-radius: 8px;
 }
 
 button:hover {
-  background-color: #A66885;
+  background-color: #F25D07;
   cursor: pointer;
 }
 
@@ -62,13 +62,14 @@ button:disabled {
 .input {
   width: 100%;
   padding: 10px;
-  border: 1px solid #03588C;
+  /* border: 1px solid #03588C; */
+  border: 0px;
   border-radius: 5px;
   font-size: 16px;
 }
 
 .input:focus {
-  border: 2px solid #D96523;
+  border: 2px solid #F25D07;
   outline: none;
   box-shadow: 0 0 8px rgba(242, 68, 164, 0.6);
 }
@@ -103,7 +104,7 @@ button:disabled {
   justify-content: space-between;
   gap: 48px;
   padding: 12px;
-  background-color: #88E8F2;
+  background-color: #f4f8fb;
 }
 
 .searchBlock {
