@@ -76,7 +76,7 @@ export function useFHIRPathUI() {
     }, []);
 
     useEffect(() => {
-        if (initialRun && resource && expression) {
+        if (initialRun && resource && expression && getUrlParams('url') && getUrlParams('expression')) {
             handleExecute(resource, expression);
             setInitialRun(false);
         }
