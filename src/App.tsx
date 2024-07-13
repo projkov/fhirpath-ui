@@ -8,6 +8,8 @@ import { Play, ShareFat, FileArrowDown, Info } from "@phosphor-icons/react";
 import Loader from './components/loader';
 import { Modal } from './components/Modal';
 import logo from './assets/logo.png';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const App: React.FC = () => {
   const { url, handleUrlChange, handleFetch,
@@ -61,6 +63,7 @@ const App: React.FC = () => {
           </div>
         </Allotment>
       </div>
+      <ToastContainer />
     </div>
   );
 };
