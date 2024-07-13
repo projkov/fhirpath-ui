@@ -1,6 +1,8 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { EvaluateResponse } from "./interfaces";
+import { toast } from 'react-toastify';
+import { reqWrapper } from "./utils/requests";
 
 export function useFHIRPathUI() {
     const fhirPathServiceURL = process.env.REACT_APP_FHIRPATH_URL || 'http://localhost:5000';
@@ -15,29 +17,30 @@ export function useFHIRPathUI() {
     const isGetResourceActive = url !== '';
     const isExecuteActive = resource !== '' && expression !== '';
     const isShareActive = url !== '' && expression !== '';
+    const showError = (message: string) => toast.error(message)
+    const showSuccess = (message: string) => toast.success(message)
 
     const handleFetch = async (fetchUrl: string) => {
         setIsLoading(true);
-        try {
-            const response = await axios.get(fetchUrl);
-            setResource(JSON.stringify(response.data, null, 2));
-        } catch (error) {
-            console.error('Error fetching data:', error);
+        const result = await reqWrapper(axios.get(fetchUrl))
+        if (result.status === 'success') {
+            setResource(JSON.stringify(result.data, null, 2))
+        } else {
+            showError(result.error);
         }
         setIsLoading(false);
     };
 
     const handleExecute = async (executeResource: string, executeExpression: string) => {
         setIsLoading(true);
-        try {
-            const parsedResource = JSON.parse(executeResource);
-            const response = await axios.post<EvaluateResponse>(evaluateURL, {
-                resource: parsedResource,
-                expression: executeExpression,
-            });
-            setResult(JSON.stringify(response.data, null, 2));
-        } catch (error) {
-            console.error('Error executing expression:', error);
+        const result = await reqWrapper(axios.post<EvaluateResponse>(evaluateURL, {
+            resource: JSON.parse(executeResource),
+            expression: executeExpression,
+        }))
+        if(result.status === 'success'){
+            setResult(JSON.stringify(result.data, null, 2));
+        } else {
+            showError(result.error);
         }
         setIsLoading(false);
     };
@@ -47,9 +50,9 @@ export function useFHIRPathUI() {
         const shareUrl = `${currentUrl}?url=${encodeURIComponent(url)}&expression=${encodeURIComponent(expression)}`;
         setShareLink(shareUrl);
         navigator.clipboard.writeText(shareUrl).then(() => {
-            alert('Link copied to clipboard!');
+            showSuccess('Link copied to clipboard!');
         }).catch(err => {
-            console.error('Could not copy text: ', err);
+            showError('Could not copy text: ' + err);
         });
     };
 
@@ -80,7 +83,7 @@ export function useFHIRPathUI() {
             handleExecute(resource, expression);
             setInitialRun(false);
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [resource, expression, initialRun]);
 
     return {
