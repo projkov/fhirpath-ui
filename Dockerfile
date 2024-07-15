@@ -4,11 +4,18 @@ RUN mkdir -p /app/src
 
 WORKDIR /app
 
-ADD package.json package.json
-ADD yarn.lock yarn.lock
+COPY package.json yarn.lock ./
 
 RUN yarn install
 
-ADD . /app
+COPY . .
 
 RUN yarn build
+
+FROM nginx:alpine
+
+COPY --from=builder /app/build /usr/share/nginx/html
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
