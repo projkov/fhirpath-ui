@@ -4,10 +4,11 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import ReactGA from "react-ga4";
+import { config } from './config'
 
 
-const measurementId = process.env.REACT_APP_GA4ID || ''
-if (measurementId)  {
+const measurementId = config.ga4Id || ''
+if (measurementId) {
   ReactGA.initialize(measurementId);
 }
 
