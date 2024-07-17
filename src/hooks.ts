@@ -1,13 +1,12 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { EvaluateResponse } from "./interfaces";
 import { toast } from 'react-toastify';
 import { reqWrapper } from "./utils/requests";
-import { config } from './config'
+
+const fhirpath = require('fhirpath');
+const fhirpath_r4_model = require('fhirpath/fhir-context/r4');
 
 export function useFHIRPathUI() {
-    const fhirPathServiceURL = config.fhirpathApi || 'http://localhost:5000';
-    const evaluateURL = fhirPathServiceURL + '/evaluate';
     const [url, setUrl] = useState<string>('');
     const [resource, setResource] = useState<string>('');
     const [expression, setExpression] = useState<string>('');
@@ -34,15 +33,8 @@ export function useFHIRPathUI() {
 
     const handleExecute = async (executeResource: string, executeExpression: string) => {
         setIsLoading(true);
-        const result = await reqWrapper(axios.post<EvaluateResponse>(evaluateURL, {
-            resource: JSON.parse(executeResource),
-            expression: executeExpression,
-        }))
-        if(result.status === 'success'){
-            setResult(JSON.stringify(result.data, null, 2));
-        } else {
-            showError(result.error);
-        }
+        const result = fhirpath.evaluate(JSON.parse(executeResource), executeExpression, null, fhirpath_r4_model);
+        setResult(JSON.stringify(result.data, null, 2));
         setIsLoading(false);
     };
 
