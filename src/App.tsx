@@ -10,6 +10,7 @@ import { Modal } from './components/Modal';
 import logo from './assets/logo.png';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { ResultOutput } from './components/ResultOutput';
 
 const App: React.FC = () => {
   const { url, handleUrlChange, handleFetch,
@@ -52,13 +53,7 @@ const App: React.FC = () => {
               <div className='editorWrapper'>
                 <Editor defaultLanguage="ruby" value={expression} onChange={(value) => setExpression(value as string)} options={{ formatOnPaste: true, formatOnType: true }} />
               </div>
-              <div className='editorWrapper'>
-                <Editor defaultLanguage="json" value={result} options={{
-                  formatOnPaste: true,
-                  formatOnType: true,
-                  readOnly: true,
-                }} />
-              </div>
+              <ResultOutput resultItems={result} />
             </Allotment>
           </div>
         </Allotment>
