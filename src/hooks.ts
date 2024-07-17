@@ -10,7 +10,7 @@ export function useFHIRPathUI() {
     const [url, setUrl] = useState<string>('');
     const [resource, setResource] = useState<string>('');
     const [expression, setExpression] = useState<string>('');
-    const [result, setResult] = useState<string>('');
+    const [result, setResult] = useState<any[]>([]);
     const [shareLink, setShareLink] = useState<string>('');
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [initialRun, setInitialRun] = useState<boolean>(true); // Track initial run
@@ -33,8 +33,7 @@ export function useFHIRPathUI() {
 
     const handleExecute = async (executeResource: string, executeExpression: string) => {
         setIsLoading(true);
-        const result = fhirpath.evaluate(JSON.parse(executeResource), executeExpression, null, fhirpath_r4_model);
-        setResult(JSON.stringify(result.data, null, 2));
+        setResult(fhirpath.evaluate(JSON.parse(executeResource), executeExpression, null, fhirpath_r4_model));
         setIsLoading(false);
     };
 
@@ -69,6 +68,7 @@ export function useFHIRPathUI() {
 
             handleFetch(decodedUrl);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {
