@@ -51,7 +51,11 @@ const App: React.FC = () => {
           <div style={{ height: '100vh' }}>
             <Allotment defaultSizes={[100, 300]} vertical>
               <div className='editorWrapper'>
-                <Editor defaultLanguage="ruby" value={expression} onChange={(value) => setExpression(value as string)} options={{ formatOnPaste: true, formatOnType: true }} />
+                <Editor defaultLanguage="ruby" value={expression} onChange={(value) => setExpression(value as string)} options={{
+                  formatOnPaste: true, formatOnType: true, minimap: {
+                    enabled: false,
+                  },
+                }} />
               </div>
               <ResultOutput resultItems={result} />
             </Allotment>
