@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './App.css';
 import { useFHIRPathUI } from './hooks';
 import Editor from '@monaco-editor/react';
 import { Allotment } from "allotment";
 import "allotment/dist/style.css";
-import { Play, ShareFat, FileArrowDown, Info } from "@phosphor-icons/react";
+import { Play, ShareFat, FileArrowDown } from "@phosphor-icons/react";
 import Loader from './components/loader';
-import { Modal } from './components/Modal';
 import logo from './assets/logo.png';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -16,22 +15,10 @@ const App: React.FC = () => {
   const { url, handleUrlChange, handleFetch,
     resource, expression, setExpression, setResource,
     handleExecute, result, handleShare, isLoading, isExecuteActive, isGetResourceActive, isShareActive } = useFHIRPathUI();
-  const [infoModalOpen, setInfoModalOpen] = useState<boolean>(false);
 
   return (
     <div className="App">
-      <div className='infoButton'>
-        <button onClick={() => setInfoModalOpen(true)}><Info fontSize={24} /></button>
-      </div>
       {isLoading ? <Loader /> : null}
-      <Modal show={infoModalOpen} onClose={() => setInfoModalOpen(false)}>
-        <div className='infoContent'>
-          <h1>Open source UI for the FHIRPath expression</h1>
-          <p><a href="https://github.com/projkov/fhirpath-ui" target="_blank" rel="noreferrer">GitHub Repo</a></p>
-          <p>Developed by <a href="https://github.com/projkov" target="_blank" rel="noreferrer">Pavel Rozhkov</a></p>
-          <p><a href="https://github.com/beda-software/fhirpath-py" target="_blank" rel="noreferrer">FHIRPath</a> engine developed by <a href="https://beda.software" target="_blank" rel="noreferrer">Beda Software</a></p>
-        </div>
-      </Modal>
       <div className='header'>
         <img src={logo} alt="Logo" className='logo' />
         <div className='searchBlock'>
@@ -61,6 +48,9 @@ const App: React.FC = () => {
             </Allotment>
           </div>
         </Allotment>
+      </div>
+      <div className='footer'>
+        <p><a href="https://github.com/projkov/fhirpath-ui" target="_blank" rel="noopener noreferrer">Source Code</a></p>
       </div>
       <ToastContainer />
     </div>
