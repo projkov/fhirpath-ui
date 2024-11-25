@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/fhirpath-ui/static/css/main.698a19eb.css",
+    "main.js": "/fhirpath-ui/static/js/main.ff6ed532.js",
+    "static/js/453.077f894f.chunk.js": "/fhirpath-ui/static/js/453.077f894f.chunk.js",
+    "index.html": "/fhirpath-ui/index.html",
+    "main.698a19eb.css.map": "/fhirpath-ui/static/css/main.698a19eb.css.map",
+    "main.ff6ed532.js.map": "/fhirpath-ui/static/js/main.ff6ed532.js.map",
+    "453.077f894f.chunk.js.map": "/fhirpath-ui/static/js/453.077f894f.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.698a19eb.css",
+    "static/js/main.ff6ed532.js"
+  ]
+}
