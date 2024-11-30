@@ -38,7 +38,7 @@ export function useFHIRPathUI() {
     };
 
     const handleShare = () => {
-        const currentUrl = window.location.origin;
+        const currentUrl = window.location.href.split('?')[0];
         const shareUrl = `${currentUrl}?url=${encodeURIComponent(url)}&expression=${encodeURIComponent(expression)}`;
         setShareLink(shareUrl);
         navigator.clipboard.writeText(shareUrl).then(() => {
