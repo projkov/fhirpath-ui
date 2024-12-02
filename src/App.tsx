@@ -10,6 +10,7 @@ import logo from './assets/logo.png';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { ResultOutput } from './components/ResultOutput';
+import { WeeklyPopup } from './components/WeeklyPopup';
 
 const App: React.FC = () => {
   const { url, handleUrlChange, handleFetch,
@@ -19,6 +20,7 @@ const App: React.FC = () => {
   return (
     <div className="App">
       {isLoading ? <Loader /> : null}
+      <WeeklyPopup />
       <div className='header'>
         <img src={logo} alt="Logo" className='logo' />
         <div className='searchBlock'>
