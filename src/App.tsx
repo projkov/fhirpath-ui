@@ -51,9 +51,6 @@ const App: React.FC = () => {
           </div>
         </Allotment>
       </div>
-      <div className='footer'>
-        <p><a href="https://github.com/projkov/fhirpath-ui" target="_blank" rel="noopener noreferrer">Source Code</a></p>
-      </div>
       <ToastContainer />
     </div>
   );
