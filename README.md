@@ -1,6 +1,6 @@
 # FHIRPath UI
 ## Open-source UI for FHIRPath
-**Official website**: [https://fhirpath.me](https://fhirpath.me)
+**Official website**: [https://projkov.github.io/fhirpath-ui/](https://projkov.github.io/fhirpath-ui/)
 ![FHIRPath UI](./fhirpath-ui-5.png)
 ### Motivation
 Lately, I've been working a lot with FHIR IG and FHIR data. I frequently need to check the quality of data, extensions, etc. I found that FHIRPath is a perfect tool to manipulate FHIR data. Sometimes, I need to share the result of a FHIRPath expression for a target FHIR resource with my colleagues for work or educational purposes.
@@ -19,13 +19,15 @@ Thanks,
 
 Pavel Rozhkov
 ### Examples
-1. [List of combo parameters for Observation resource](https://fhirpath.me?url=https%3A%2F%2Fwww.hl7.org%2Ffhir%2Fus%2Fcore%2FCapabilityStatement-us-core-server.json&expression=CapabilityStatement.rest.resource.where(%0A%20%20%20%20type%3D'Observation').extension.where(%0A%20%20%20%20%20%20%20%20url%3D'http%3A%2F%2Fhl7.org%2Ffhir%2FStructureDefinition%2Fcapabilitystatement-search-parameter-combination'))
-2. [List of Patient IDs with gender equal to 'male'](https://fhirpath.me?url=https%3A%2F%2Fserver.fire.ly%2FPatient&expression=Bundle.entry.resource.where(gender%3D'male').id)
+1. [List of combo parameters for Observation resource](https://projkov.github.io/fhirpath-ui?url=https%3A%2F%2Fwww.hl7.org%2Ffhir%2Fus%2Fcore%2FCapabilityStatement-us-core-server.json&expression=CapabilityStatement.rest.resource.where(%0A%20%20%20%20type%3D'Observation').extension.where(%0A%20%20%20%20%20%20%20%20url%3D'http%3A%2F%2Fhl7.org%2Ffhir%2FStructureDefinition%2Fcapabilitystatement-search-parameter-combination'))
+2. [List of Patient IDs with gender equal to 'male'](https://projkov.github.io/fhirpath-ui?url=https%3A%2F%2Fserver.fire.ly%2FPatient&expression=Bundle.entry.resource.where(gender%3D'male').id)
 ### Features
 1. Evaluate FHIRPath expressions online.
 2. Retrieve FHIR resources by link.
 3. Share your FHIRPath expressions with colleagues in one click.
-4. Open-source.
+4. Authorization through the header
+5. Share your results
+6. Open-source.
 ### Local Development
 #### Docker and Docker Compose
 ```bash
@@ -45,7 +47,7 @@ The UI will be available at [http://localhost:3000](http://localhost:3000).
 * **Anything else?** You can write an email to me at prozskov@gmail.com.
 
 ### Want to use it?
-1. Use the official website [http://fhirpath.me](https://fhirpath.me).
+1. Use the official website [https://projkov.github.io/fhirpath-ui/](https://projkov.github.io/fhirpath-ui/).
 2. Use this source code.
 
 ### References
