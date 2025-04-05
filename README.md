@@ -1,7 +1,7 @@
 # FHIRPath UI
 ## Open-source UI for FHIRPath
 **Official website**: [https://fhirpath.me](https://fhirpath.me)
-![FHIRPath UI](./fhirpath-ui-4.png)
+![FHIRPath UI](./fhirpath-ui-5.png)
 ### Motivation
 Lately, I've been working a lot with FHIR IG and FHIR data. I frequently need to check the quality of data, extensions, etc. I found that FHIRPath is a perfect tool to manipulate FHIR data. Sometimes, I need to share the result of a FHIRPath expression for a target FHIR resource with my colleagues for work or educational purposes.
 
