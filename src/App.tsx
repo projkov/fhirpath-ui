@@ -10,7 +10,6 @@ import logo from './assets/logo.png';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { ResultOutput } from './components/ResultOutput';
-import { WeeklyPopup } from './components/WeeklyPopup';
 import { DrawerButton } from './components/DrawerButton';
 import { SettingsContainer } from './containers/Settings'
 import { CredentialsContainer } from './containers/Credentials'
@@ -24,7 +23,6 @@ const App: React.FC = () => {
     return (
         <div className="App">
             {isLoading ? <Loader /> : null}
-            <WeeklyPopup />
             <div className='header'>
                 <img src={logo} alt="Logo" className='logo' />
                 <div className='searchBlock'>
