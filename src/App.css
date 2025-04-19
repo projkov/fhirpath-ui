@@ -43,14 +43,14 @@ button {
   font-size: 12px;
   min-width: 50px;
   min-height: 50px;
-  color: #FFFFFF;
-  background-color: #F27D16;
+  color: #ffffff;
+  background-color: #f27d16;
   border: 0px;
   border-radius: 8px;
 }
 
 button:hover {
-  background-color: #F25D07;
+  background-color: #f25d07;
   cursor: pointer;
 }
 
@@ -69,7 +69,7 @@ button:disabled {
 }
 
 .input:focus {
-  border: 2px solid #F25D07;
+  border: 2px solid #f25d07;
   outline: none;
   box-shadow: 0 0 8px rgba(242, 68, 164, 0.6);
 }

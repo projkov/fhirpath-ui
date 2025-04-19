@@ -3,11 +3,10 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import ReactGA from "react-ga4";
-import { config } from './config'
+import ReactGA from 'react-ga4';
+import { config } from './config';
 
-
-const measurementId = config.ga4Id || ''
+const measurementId = config.ga4Id || '';
 if (measurementId) {
   ReactGA.initialize(measurementId);
 }
