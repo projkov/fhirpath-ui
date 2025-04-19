@@ -5,6 +5,7 @@ interface DrawerButtonProps {
     title: string;
     content: React.ReactNode;
     button: React.ReactNode;
+    footer?: React.ReactNode;
     size?: 'large' | 'default';
     placement?: 'top' | 'right' | 'bottom' | 'left';
 }
@@ -23,7 +24,7 @@ export function DrawerButton(props: DrawerButtonProps) {
         <div onClick={showDrawer}>
             {props.button}
         </div>
-        <Drawer title={props.title} onClose={onClose} open={open} size={props.size} placement={props.placement}>
+        <Drawer title={props.title} onClose={onClose} open={open} size={props.size} placement={props.placement} footer={props.footer}>
             {props.content}
         </Drawer>
     </>)
