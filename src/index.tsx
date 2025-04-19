@@ -8,16 +8,16 @@ import { config } from './config';
 
 const measurementId = config.ga4Id || '';
 if (measurementId) {
-  ReactGA.initialize(measurementId);
+    ReactGA.initialize(measurementId);
 }
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+    document.getElementById('root') as HTMLElement,
 );
 root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+    <React.StrictMode>
+        <App />
+    </React.StrictMode>,
 );
 
 // If you want to start measuring performance in your app, pass a function
