@@ -1,3 +1,11 @@
+# 1.1.0
+## What's Changed
+* Use toast notification on settings handleSave by @projkov in https://github.com/projkov/fhirpath-ui/pull/21
+* Add History Drawer by @projkov in https://github.com/projkov/fhirpath-ui/pull/22
+* 1.1.0 by @projkov in https://github.com/projkov/fhirpath-ui/pull/23
+
+**Full Changelog**: https://github.com/projkov/fhirpath-ui/compare/v1.0.1...v1.1.0
+
 # 1.0.1
 ## What's Changed
 * Auto execute by @projkov in https://github.com/projkov/fhirpath-ui/pull/3
