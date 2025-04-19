@@ -2,8 +2,9 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { toast } from 'react-toastify';
 import { reqWrapper } from "./utils/requests";
-import { getFromLocalStorage } from "./utils/storage"
+import { getFromLocalStorage, setToLocalStorage } from "./utils/storage"
 import { SettingItem } from './containers/Settings/'
+import { addHistoryItem, addExpressionHistoryItem } from './containers/HistoryContainer/utils'
 
 const fhirpath = require('fhirpath');
 const fhirpath_r4_model = require('fhirpath/fhir-context/r4');
@@ -30,8 +31,10 @@ export function useFHIRPathUI() {
     const handleFetch = async (fetchUrl: string) => {
         setIsLoading(true);
         const result = await reqWrapper(axios.get(fetchUrl, fetchHeaders))
+        const resultDataStr = JSON.stringify(result.data, null, 2)
+        addHistoryItem(fetchUrl, result.status, resultDataStr);
         if (result.status === 'success') {
-            setResource(JSON.stringify(result.data, null, 2))
+            setResource(resultDataStr)
         } else {
             showError(result.error);
         }
@@ -44,6 +47,7 @@ export function useFHIRPathUI() {
             const parsed = JSON.parse(executeResource);
             const result = fhirpath.evaluate(parsed, executeExpression, null, fhirpath_r4_model);
             setResult(result);
+            addExpressionHistoryItem(executeExpression);
         } catch (err: any) {
             showError(err?.message || String(err));
             console.error('Execution error:', err);
@@ -106,6 +110,7 @@ export function useFHIRPathUI() {
         resource,
         expression,
         url,
+        setUrl,
         result,
         shareLink,
         handleFetch,
@@ -120,5 +125,6 @@ export function useFHIRPathUI() {
         isShareActive,
         isShareResultActive,
         handleShareResult,
+        copyToClipboard
     };
 }

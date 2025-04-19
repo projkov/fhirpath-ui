@@ -12,9 +12,10 @@ export interface SettingItem {
 
 export function SettingsContainer() {
     const [settings, setSettings] = useState<Array<SettingItem>>([]);
+    const settingsKey = "FHIRPathUISettings"
 
     useEffect(() => {
-        const savedSettings = getFromLocalStorage<Array<SettingItem>>("settings");
+        const savedSettings = getFromLocalStorage<Array<SettingItem>>(settingsKey);
         if (savedSettings) {
             setSettings(savedSettings);
         } else {
@@ -23,7 +24,7 @@ export function SettingsContainer() {
     }, []);
 
     const handleSave = () => {
-        setToLocalStorage("settings", settings);
+        setToLocalStorage(settingsKey, settings);
         toast.success("Saved")
     };
 
