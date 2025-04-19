@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Table, Input, Button, Space } from "antd";
+import { toast } from 'react-toastify';
 
-import { getFromLocalStorage, setToLocalStorage} from '../../utils/storage'
+import { getFromLocalStorage, setToLocalStorage } from '../../utils/storage'
 
 export interface SettingItem {
     id: string;
@@ -23,7 +24,7 @@ export function SettingsContainer() {
 
     const handleSave = () => {
         setToLocalStorage("settings", settings);
-        alert("Saved!");
+        toast.success("Saved")
     };
 
     const handleChange = (index: number, newValue: string) => {
