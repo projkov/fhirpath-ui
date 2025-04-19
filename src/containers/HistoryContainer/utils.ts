@@ -1,9 +1,17 @@
 import { getFromLocalStorage, setToLocalStorage } from "../../utils/storage"
 import { RequestsHistoryItem, ExpressionsHistoryItem } from './types';
+import { SettingItem } from '../Settings/types';
 
 const enum StorageKey {
     Requests = "FHIRPathUIRequests",
-    Expressions = "FHIRPathUIExpressions"
+    Expressions = "FHIRPathUIExpressions",
+    Settings = "FHIRPathUISettings"
+}
+
+const enum SettingsKey {
+    AUTH_HEADER = "authorization_header",
+    EXPR_HIST_MAX = "expressions_history_max_items",
+    REQ_HIST_MAX = "requests_history_max_items"
 }
 
 function sortHistoryItem(items?: Array<RequestsHistoryItem | ExpressionsHistoryItem>) {
@@ -19,9 +27,13 @@ export function getExpressionsHistory() {
 }
 
 function updateHistory<T>(key: string, newItem: T) {
+    const appSettings = getFromLocalStorage<Array<SettingItem>>(StorageKey.Settings)
+    const settingsKey = key === StorageKey.Requests ? SettingsKey.REQ_HIST_MAX : SettingsKey.EXPR_HIST_MAX
+    const maxNumberOfHistoryItems = appSettings?.find((settingItem) => settingItem.id === settingsKey)?.value ?? 100;
     const existingData = getFromLocalStorage<Array<T>>(key) || [];
     const dataToSave = [...existingData, newItem];
-    setToLocalStorage(key, dataToSave);
+    const trimmedData = dataToSave.slice(-maxNumberOfHistoryItems);
+    setToLocalStorage(key, trimmedData);
 }
 
 export function setRequestsHistory(newItem: RequestsHistoryItem) {

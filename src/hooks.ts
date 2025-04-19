@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { toast } from 'react-toastify';
 import { reqWrapper } from "./utils/requests";
 import { getFromLocalStorage, setToLocalStorage } from "./utils/storage"
-import { SettingItem } from './containers/Settings/'
+import { SettingItem } from './containers/Settings/types'
 import { addHistoryItem, addExpressionHistoryItem } from './containers/HistoryContainer/utils'
 
 const fhirpath = require('fhirpath');

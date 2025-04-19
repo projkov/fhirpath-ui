@@ -15,8 +15,8 @@ export function ExpressionsHistoryTable(props: ExpressionsHistoryTableProps) {
                     dataIndex: 'expression',
                 },
                 {
-                    title: 'Action',
-                    key: 'action',
+                    title: 'Actions',
+                    key: 'actions',
                     render: (_, record) => (
                         <Space size="middle">
                             <Button type="link" onClick={() => props.setExpression(record.expression)}>Use</Button>
