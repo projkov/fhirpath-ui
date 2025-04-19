@@ -1,4 +1,4 @@
-### 1.0.1
+# 1.0.1
 ## What's Changed
 * Auto execute by @projkov in https://github.com/projkov/fhirpath-ui/pull/3
 * Display errors by @projkov in https://github.com/projkov/fhirpath-ui/pull/5
