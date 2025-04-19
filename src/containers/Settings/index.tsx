@@ -1,33 +1,35 @@
 import { useState, useEffect } from 'react';
-import { Table, Input, Button, Space } from "antd";
+import { Table, Input, InputNumber, Button, Space } from "antd";
 import { toast } from 'react-toastify';
+import { SettingItem } from './types'
 
 import { getFromLocalStorage, setToLocalStorage } from '../../utils/storage'
 
-export interface SettingItem {
-    id: string;
-    name: string;
-    value: string;
-}
+
 
 export function SettingsContainer() {
     const [settings, setSettings] = useState<Array<SettingItem>>([]);
+    const settingsKey = "FHIRPathUISettings"
 
     useEffect(() => {
-        const savedSettings = getFromLocalStorage<Array<SettingItem>>("settings");
+        const savedSettings = getFromLocalStorage<Array<SettingItem>>(settingsKey);
         if (savedSettings) {
             setSettings(savedSettings);
         } else {
-            setSettings([{ id: 'authorization_header', name: "Authorization header", value: "" }]);
+            setSettings([
+                { id: 'authorization_header', type: 'string', name: "Authorization header", value: "" },
+                { id: 'expressions_history_max_items', type: 'number', name: "Maximum number of expressions in history tab", value: 100 },
+                { id: 'requests_history_max_items', type: 'number', name: "Maximum number of requests in history tab", value: 100 }
+            ]);
         }
     }, []);
 
     const handleSave = () => {
-        setToLocalStorage("settings", settings);
+        setToLocalStorage(settingsKey, settings);
         toast.success("Saved")
     };
 
-    const handleChange = (index: number, newValue: string) => {
+    const handleChange = (index: number, newValue: string | number) => {
         const updatedSettings = [...settings];
         updatedSettings[index].value = newValue;
         setSettings(updatedSettings);
@@ -43,12 +45,25 @@ export function SettingsContainer() {
             title: "Value",
             dataIndex: "value",
             key: "value",
-            render: (_: string, record: SettingItem, index: number) => (
-                <Input
-                    value={record.value}
-                    onChange={(e) => handleChange(index, e.target.value)}
-                />
-            ),
+            render: (_: string, record: SettingItem, index: number) => {
+                if (record.type === 'number') {
+                    return (
+                        <InputNumber
+                            value={record.value}
+                            defaultValue={record.value}
+                            min={0}
+                            max={1000}
+                            onChange={(e) => handleChange(index, e ?? 0)}
+                        />
+                    );
+                }
+                return (
+                    <Input
+                        value={record.value}
+                        onChange={(e) => handleChange(index, e.target.value)}
+                    />
+                )
+            },
         },
     ];
 
