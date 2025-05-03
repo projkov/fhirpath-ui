@@ -19,7 +19,8 @@ import { HistoryContainer } from './containers/HistoryContainer';
 const App: React.FC = () => {
     const { url, setUrl, handleUrlChange, handleFetch,
         resource, expression, setExpression, setResource,
-        handleExecute, result, handleShare, isLoading, isExecuteActive, isGetResourceActive, isShareActive, handleShareResult, isShareResultActive, copyToClipboard  } = useFHIRPathUI();
+        handleExecute, result, handleShare, isLoading, isExecuteActive, isGetResourceActive, isShareActive, handleShareResult, isShareResultActive, copyToClipboard, resourceFormat  } = useFHIRPathUI();
+    console.log('resoruceFormat', resourceFormat)
 
     return (
         <div className="App">
@@ -54,7 +55,7 @@ const App: React.FC = () => {
             <div className='editor'>
                 <Allotment defaultSizes={[550, 250]}>
                     <div className='editorWrapper'>
-                        <Editor height="100vh" defaultLanguage="json" value={resource} onChange={(value) => setResource(value as string)} options={{ formatOnPaste: true, formatOnType: true }} />
+                        <Editor height="100vh" key={resourceFormat} defaultLanguage={resourceFormat} value={resource} onChange={(value) => setResource(value as string)} options={{ formatOnPaste: true, formatOnType: true }} />
                     </div>
                     <div style={{ height: '100vh' }}>
                         <Allotment defaultSizes={[100, 300]} vertical>
