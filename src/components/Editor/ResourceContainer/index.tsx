@@ -1,9 +1,7 @@
-import '../../../App.css';
 import Editor from '@monaco-editor/react';
-import "allotment/dist/style.css";
-import 'react-toastify/dist/ReactToastify.css';
 import { Input } from 'antd';
 import { FHIRPathUIEditorProps } from '../types';
+import { styles } from '../../../styles';
 
 export function ResourceContainer(props: FHIRPathUIEditorProps) {
     const { url, handleUrlChange, handleFetch, resourceFormat, setResource, resource } = props;
@@ -15,7 +13,7 @@ export function ResourceContainer(props: FHIRPathUIEditorProps) {
     };
 
     return (
-        <div className='editorWrapper'>
+        <div style={styles.editorWrapper}>
             <Input.Search
                 addonBefore="GET"
                 placeholder="You can paste the URL to get the FHIR Resource"

@@ -2,6 +2,7 @@ import moment from 'moment';
 import { List, Button, Space, Tag, Typography } from 'antd';
 import { getExecutionsHistory } from '../../containers/HistoryContainer/utils';
 import { ExecutionItem } from '../../containers/HistoryContainer/types';
+import { styles } from '../../styles';
 
 const { Text } = Typography;
 
@@ -46,7 +47,7 @@ export function HistoryContainer(props: Omit<HistoryContainerItemProps, "item">)
     
     return (
         <List
-            className="historyContainer"
+            style={styles.historyContainer}
             size="small"
             dataSource={getExecutionsHistory()}
             renderItem={renderItem}

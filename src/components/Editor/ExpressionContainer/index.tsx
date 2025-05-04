@@ -1,19 +1,28 @@
-import '../../../App.css';
 import Editor from '@monaco-editor/react';
 import "allotment/dist/style.css";
 import 'react-toastify/dist/ReactToastify.css';
 import { Button } from 'antd';
 import { FHIRPathUIEditorProps } from '../types';
+import { styles } from '../../../styles';
 
 export function ExpressionContainer(props: FHIRPathUIEditorProps) {
     const { handleExecute, resource, expression, isExecuteActive, setExpression } = props;
+    const onClick = () => handleExecute(resource, expression)
+    const onChange = (value: string | undefined) => setExpression(value ?? "")
+    const editorOptions = {
+        formatOnPaste: true,
+        formatOnType: true,
+        minimap: {
+            enabled: false,
+        },
+    }
 
     return (
-        <div className='editorWrapper'>
-            <div className="header">
+        <div style={styles.editorWrapper}>
+            <div style={styles.contextActions}>
                 <Button
                     type="primary"
-                    onClick={() => handleExecute(resource, expression)}
+                    onClick={onClick}
                     disabled={!isExecuteActive}
                 >
                     Execute
@@ -22,14 +31,8 @@ export function ExpressionContainer(props: FHIRPathUIEditorProps) {
             <Editor
                 defaultLanguage="ruby"
                 value={expression}
-                onChange={(value) => setExpression(value as string)}
-                options={{
-                    formatOnPaste: true,
-                    formatOnType: true,
-                    minimap: {
-                        enabled: false,
-                    },
-                }}
+                onChange={onChange}
+                options={editorOptions}
             />
         </div>
     )

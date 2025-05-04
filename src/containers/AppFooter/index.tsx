@@ -1,5 +1,3 @@
-import '../../App.css';
-import 'react-toastify/dist/ReactToastify.css';
 import { Layout } from 'antd';
 import { styles } from '../../styles';
 

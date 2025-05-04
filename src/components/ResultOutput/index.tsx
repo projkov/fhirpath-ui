@@ -1,5 +1,4 @@
 import { List } from "antd";
-import './styles.css';
 
 interface ResultOutputProps {
     resultItems: any[];
@@ -13,7 +12,7 @@ export function ResultOutput(props: ResultOutputProps) {
     }
 
     return (
-        <div className="resultOutputContainer">
+        <div>
             <List
                 size="small"
                 dataSource={resultItems}
