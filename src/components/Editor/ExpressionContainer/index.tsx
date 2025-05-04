@@ -18,7 +18,7 @@ export function ExpressionContainer(props: FHIRPathUIEditorProps) {
     }
 
     return (
-        <div style={styles.editorWrapper}>
+        <div style={styles.expressionEditorWrapper}>
             <div style={styles.contextActions}>
                 <Button
                     type="primary"

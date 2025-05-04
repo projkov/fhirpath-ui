@@ -13,19 +13,20 @@ export function ResourceContainer(props: FHIRPathUIEditorProps) {
     };
 
     return (
-        <div style={styles.editorWrapper}>
+        <div style={styles.resourceBlockWrapper}>
             <Input.Search
                 addonBefore="GET"
                 placeholder="You can paste the URL to get the FHIR Resource"
                 allowClear
-                enterButton="Search"
-                size="large"
+                enterButton="Request"
+                size="middle"
                 value={url}
+                loading={props.isLoading}
                 onChange={handleUrlChange}
                 onSearch={onSearch}
             />
             <Editor
-                height="100vh"
+                height="72vh"
                 key={resourceFormat}
                 defaultLanguage={resourceFormat}
                 value={resource}

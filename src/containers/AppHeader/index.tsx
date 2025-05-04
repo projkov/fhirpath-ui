@@ -12,7 +12,7 @@ export function AppHeader() {
         <Header style={styles.header}>
             <img src={logo} alt="Logo" style={styles.logo} />
             <DrawerButton content={<SettingsContainer />} button={<Button type="text">Settings</Button>} title="Settings" size="large" />
-            <DrawerButton content={<CredentialsContainer />} button={<Button type="text">About</Button>} title="Credentials" />
+            <DrawerButton content={<CredentialsContainer />} button={<Button type="text">About</Button>} title="About" />
         </Header>
     );
 }

@@ -24,8 +24,8 @@ function HistoryContainerItem(props: HistoryContainerItemProps) {
     
     return (
         <Space>
-            <Tag color={item.status}>{item.requestType}</Tag>
-            <Text type="secondary">{formattedDate}</Text>
+            <Tag color={item.status}>{item.requestType.toUpperCase()}</Tag>
+            <Text type="secondary" style={{ fontSize: '12px' }}>{formattedDate}</Text>
             <Button type="link" onClick={onClick}>{item.url}</Button>
         </Space>
     );

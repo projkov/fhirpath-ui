@@ -1,13 +1,13 @@
 import "allotment/dist/style.css";
 import 'react-toastify/dist/ReactToastify.css';
-import { ResultOutput } from '../../ResultOutput/';
 import { Button } from 'antd';
 import { FHIRPathUIEditorProps } from '../types';
 import { styles } from '../../../styles';
+import { List } from "antd";
 
 export function ResultContainer(props: FHIRPathUIEditorProps) {
     return (
-        <>
+        <div style={{ padding: '16px' }}>
             <div style={styles.contextActions}>
                 <Button
                     type="primary"
@@ -23,7 +23,16 @@ export function ResultContainer(props: FHIRPathUIEditorProps) {
                     Share
                 </Button>
             </div>
-            <ResultOutput resultItems={props.result} />
-        </>
+            <List
+                style={{ overflow: 'hidden' }}
+                size="small"
+                dataSource={props.result}
+                renderItem={(item) => (
+                    <List.Item>
+                        <pre>{JSON.stringify(item, null, 2)}</pre>
+                    </List.Item>
+                )}
+            />
+        </div>
     )
 }

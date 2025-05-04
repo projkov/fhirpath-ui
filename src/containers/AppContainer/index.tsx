@@ -5,7 +5,6 @@ import { styles } from '../../styles';
 interface AppContainerProps {
     header: React.ReactElement;
     content: React.ReactElement;
-    footer: React.ReactElement;
 }
 
 export function AppContainer(props: AppContainerProps) {
@@ -14,7 +13,6 @@ export function AppContainer(props: AppContainerProps) {
             <Layout style={styles.layout}>
                 {props.header}
                 {props.content}
-                {props.footer}
             </Layout>
         </Flex>
     );

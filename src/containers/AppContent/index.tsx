@@ -11,7 +11,7 @@ export function AppContent() {
     const FHIRPathUIData = useFHIRPathUI();
 
     return (
-        <Layout>
+        <Layout style={{ backgroundColor: '#f4f8fb' }}>
             <Sider width="25%" style={styles.sider}>
                 <HistoryContainer setResource={FHIRPathUIData.setResource} setUrl={FHIRPathUIData.setUrl} setExpression={FHIRPathUIData.setExpression} />
             </Sider>
