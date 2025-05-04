@@ -1,12 +1,12 @@
 export const enum StorageKey {
     Requests = "FHIRPathUIRequests",
     Expressions = "FHIRPathUIExpressions",
-    Settings = "FHIRPathUISettings"
+    Settings = "FHIRPathUISettings",
+    Executions = "FHIRPathUIExecutions"
 }
 
 export const enum SettingsKey {
     AUTH_HEADER = "authorization_header",
-    EXPR_HIST_MAX = "expressions_history_max_items",
-    REQ_HIST_MAX = "requests_history_max_items",
+    EXECUTIONS_HIST_MAX = "executions_history_max",
     RES_OUTPUT_FORMAT = "resource_output_format"
 }

@@ -1,11 +1,12 @@
 import axios from "axios";
 import { useEffect, useState, useMemo } from "react";
 import { toast } from 'react-toastify';
-import { reqWrapper } from "./utils/requests";
-import { getFromLocalStorage } from "./utils/storage"
-import { SettingItem } from './containers/Settings/types'
-import { addHistoryItem } from './containers/HistoryContainer/utils'
-import { SettingsKey, StorageKey } from './consts';
+import { reqWrapper } from "../../utils/requests";
+import { getFromLocalStorage } from "../..//utils/storage"
+import { SettingItem } from '../../containers/Settings/types'
+import { addHistoryItem } from '../../containers/HistoryContainer/utils'
+import { SettingsKey, StorageKey } from '../../consts';
+import { FHIRPathUIEditorProps } from './types';
 
 const yaml = require('js-yaml');
 const fhirpath = require('fhirpath');
@@ -49,7 +50,7 @@ const detectFormat = (input: string): Format => {
 };
 
 
-export function useFHIRPathUI() {
+export function useFHIRPathUI(): FHIRPathUIEditorProps {
     const [url, setUrl] = useState<string>('');
     const [requestStatus, setRequestStatus] = useState<'success' | 'error' | 'not-asked'>('not-asked')
     const [resource, setResource] = useState<string>('');
@@ -152,7 +153,6 @@ export function useFHIRPathUI() {
     const testResource = useMemo(() => {
         const detectedFormat = detectFormat(resource);
         const selectedFormat = resourceFormat
-        console.log('hello World')
 
         if (detectedFormat === selectedFormat) {
             return resource
@@ -165,8 +165,6 @@ export function useFHIRPathUI() {
         }
 
     }, [resource, resourceFormat])
-
-    console.log('testREsource', testResource)
 
     return {
         resource,

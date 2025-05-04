@@ -18,8 +18,7 @@ export function SettingsContainer() {
         } else {
             setSettings([
                 { id: SettingsKey.AUTH_HEADER, type: 'string', name: "Authorization header", value: "" },
-                { id: SettingsKey.EXPR_HIST_MAX, type: 'number', name: "Maximum number of expressions in history tab", value: 100, minValue: 0, maxValue: 1000 },
-                { id: SettingsKey.REQ_HIST_MAX, type: 'number', name: "Maximum number of requests in history tab", value: 100, minValue: 0, maxValue: 1000 },
+                { id: SettingsKey.EXECUTIONS_HIST_MAX, type: 'number', name: "Maximum number of executions", value: 100, minValue: 0, maxValue: 1000 },
                 {
                     id: SettingsKey.RES_OUTPUT_FORMAT,
                     type: 'choice',

@@ -39,41 +39,6 @@
   }
 }
 
-button {
-  font-size: 12px;
-  min-width: 50px;
-  min-height: 50px;
-  color: #FFFFFF;
-  background-color: #F27D16;
-  border: 0px;
-  border-radius: 8px;
-}
-
-button:hover {
-  background-color: #F25D07;
-  cursor: pointer;
-}
-
-button:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.input {
-  width: 100%;
-  padding: 10px;
-  /* border: 1px solid #03588C; */
-  border: 0px;
-  border-radius: 5px;
-  font-size: 16px;
-}
-
-.input:focus {
-  border: 2px solid #F25D07;
-  outline: none;
-  box-shadow: 0 0 8px rgba(242, 68, 164, 0.6);
-}
-
 .buttonsBlock {
   display: flex;
   flex-direction: row;
@@ -89,7 +54,6 @@ button:disabled {
 }
 
 .editorWrapper {
-  padding-top: 12px;
   height: 100vh;
 }
 
@@ -101,10 +65,30 @@ button:disabled {
 .header {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: flex-end;
   gap: 48px;
   padding: 12px;
+}
+
+.appHeader {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 12px;
+  padding: 8px;
   background-color: #f4f8fb;
+}
+
+.appContainer {
+  background-color: #f4f8fb;
+}
+
+.blockWrapper {
+  margin: 8px;
+  padding: 16px;
+  background-color: #FFF;
+  border-radius: 14px;
 }
 
 .searchBlock {
@@ -118,7 +102,8 @@ button:disabled {
 }
 
 .logo {
-  width: 50px;
+  width: 35px;
+  height: 35px;
   border-radius: 8px;
 }
 
@@ -128,4 +113,11 @@ button:disabled {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.historyContainer {
+  margin: 8px;
+  padding: 16px;
+  background-color: #FFF;
+  border-radius: 14px;
 }

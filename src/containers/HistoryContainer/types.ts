@@ -1,3 +1,12 @@
+export type ExecutionItem = {
+    dateTime: string;
+    url: string;
+    status: string;
+    response: string;
+    expression: string;
+    requestType: 'get' | 'post';
+}
+
 export type RequestsHistoryItem = {
     dateTime: string;
     url: string;
