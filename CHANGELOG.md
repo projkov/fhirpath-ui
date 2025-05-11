@@ -1,3 +1,10 @@
+# 1.2.0
+## What's Changed
+* Added an ability to change resource window format (YAML or JSON)
+* Added sidebar with history of expression executions
+
+**Full Changelog**: https://github.com/projkov/fhirpath-ui/compare/v1.1.0...v.1.2.0
+
 # 1.1.0
 ## What's Changed
 * Use toast notification on settings handleSave by @projkov in https://github.com/projkov/fhirpath-ui/pull/21
