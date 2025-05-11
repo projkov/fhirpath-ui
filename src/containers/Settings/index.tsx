@@ -1,15 +1,15 @@
 import { useState, useEffect } from 'react';
-import { Table, Input, InputNumber, Button, Space } from "antd";
+import { Table, Input, InputNumber, Button, Space, Select } from "antd";
 import { toast } from 'react-toastify';
-import { SettingItem } from './types'
+import { SettingItem, SettingItemValue, NumberSettingItem } from './types'
 
 import { getFromLocalStorage, setToLocalStorage } from '../../utils/storage'
-
+import { SettingsKey, StorageKey } from '../../consts';
 
 
 export function SettingsContainer() {
     const [settings, setSettings] = useState<Array<SettingItem>>([]);
-    const settingsKey = "FHIRPathUISettings"
+    const settingsKey =  StorageKey.Settings;
 
     useEffect(() => {
         const savedSettings = getFromLocalStorage<Array<SettingItem>>(settingsKey);
@@ -17,19 +17,31 @@ export function SettingsContainer() {
             setSettings(savedSettings);
         } else {
             setSettings([
-                { id: 'authorization_header', type: 'string', name: "Authorization header", value: "" },
-                { id: 'expressions_history_max_items', type: 'number', name: "Maximum number of expressions in history tab", value: 100 },
-                { id: 'requests_history_max_items', type: 'number', name: "Maximum number of requests in history tab", value: 100 }
+                { id: SettingsKey.AUTH_HEADER, type: 'string', name: "Authorization header", value: "" },
+                { id: SettingsKey.EXECUTIONS_HIST_MAX, type: 'number', name: "Maximum number of executions", value: 100, minValue: 0, maxValue: 1000 },
+                {
+                    id: SettingsKey.RES_OUTPUT_FORMAT,
+                    type: 'choice',
+                    name: 'Resource output format',
+                    value: {
+                        value: 'json',
+                        label: 'JSON'
+                    },
+                    options: [
+                        { value: 'json', label: 'JSON' },
+                        { value: 'yaml', label: 'YAML' }
+                    ]
+                }
             ]);
         }
-    }, []);
+    }, [settingsKey]);
 
     const handleSave = () => {
         setToLocalStorage(settingsKey, settings);
         toast.success("Saved")
     };
 
-    const handleChange = (index: number, newValue: string | number) => {
+    const handleChange = (index: number, newValue: SettingItemValue) => {
         const updatedSettings = [...settings];
         updatedSettings[index].value = newValue;
         setSettings(updatedSettings);
@@ -46,20 +58,26 @@ export function SettingsContainer() {
             dataIndex: "value",
             key: "value",
             render: (_: string, record: SettingItem, index: number) => {
+                if (record.type === 'choice') {
+                    return (
+                        <Select defaultValue={record.value} options={record.options} onChange={(e) => handleChange(index, e ?? 0)} />
+                    );
+                }
                 if (record.type === 'number') {
+                    const currentSetting = record as NumberSettingItem
                     return (
                         <InputNumber
-                            value={record.value}
-                            defaultValue={record.value}
-                            min={0}
-                            max={1000}
+                            value={currentSetting.value}
+                            defaultValue={currentSetting.value}
+                            min={currentSetting.minValue ?? 0}
+                            max={currentSetting.maxValue ?? 1000}
                             onChange={(e) => handleChange(index, e ?? 0)}
                         />
                     );
                 }
                 return (
                     <Input
-                        value={record.value}
+                        value={record.value as string}
                         onChange={(e) => handleChange(index, e.target.value)}
                     />
                 )

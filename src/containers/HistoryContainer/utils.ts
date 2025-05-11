@@ -1,34 +1,19 @@
 import { getFromLocalStorage, setToLocalStorage } from "../../utils/storage"
-import { RequestsHistoryItem, ExpressionsHistoryItem } from './types';
+import { ExecutionItem } from './types';
 import { SettingItem } from '../Settings/types';
+import { StorageKey, SettingsKey } from '../../consts';
 
-const enum StorageKey {
-    Requests = "FHIRPathUIRequests",
-    Expressions = "FHIRPathUIExpressions",
-    Settings = "FHIRPathUISettings"
-}
-
-const enum SettingsKey {
-    AUTH_HEADER = "authorization_header",
-    EXPR_HIST_MAX = "expressions_history_max_items",
-    REQ_HIST_MAX = "requests_history_max_items"
-}
-
-function sortHistoryItem(items?: Array<RequestsHistoryItem | ExpressionsHistoryItem>) {
+function sortHistoryItem(items?: Array<ExecutionItem>) {
     return items ? items.sort((a, b) => new Date(b.dateTime).getTime() - new Date(a.dateTime).getTime()) : []
 }
 
-export function getRequestsHistory() {
-    return sortHistoryItem(getFromLocalStorage<Array<RequestsHistoryItem>>(StorageKey.Requests));
-}
-
-export function getExpressionsHistory() {
-    return sortHistoryItem(getFromLocalStorage<Array<ExpressionsHistoryItem>>(StorageKey.Expressions));
+export function getExecutionsHistory() {
+    return sortHistoryItem(getFromLocalStorage<Array<ExecutionItem>>(StorageKey.Executions));
 }
 
 function updateHistory<T>(key: string, newItem: T) {
     const appSettings = getFromLocalStorage<Array<SettingItem>>(StorageKey.Settings)
-    const settingsKey = key === StorageKey.Requests ? SettingsKey.REQ_HIST_MAX : SettingsKey.EXPR_HIST_MAX
+    const settingsKey = SettingsKey.EXECUTIONS_HIST_MAX
     const maxNumberOfHistoryItems = appSettings?.find((settingItem) => settingItem.id === settingsKey)?.value ?? 100;
     const existingData = getFromLocalStorage<Array<T>>(key) || [];
     const dataToSave = [...existingData, newItem];
@@ -36,28 +21,15 @@ function updateHistory<T>(key: string, newItem: T) {
     setToLocalStorage(key, trimmedData);
 }
 
-export function setRequestsHistory(newItem: RequestsHistoryItem) {
-    updateHistory(StorageKey.Requests, newItem);
-}
-
-export function setExpressionsHistory(newItem: ExpressionsHistoryItem) {
-    updateHistory(StorageKey.Expressions, newItem);
-}
-
-export function addHistoryItem(url: string, status: string, data: string) {
+export function addHistoryItem(url: string, status: string, data: string, expression: string) {
     const now = new Date();
-    return setRequestsHistory({
+    return updateHistory(StorageKey.Executions, {
         dateTime: now.toISOString(),
         url: url,
         status: status,
-        response: data
+        response: data,
+        expression: expression,
+        requestType: 'get'
     });
 }
 
-export function addExpressionHistoryItem(expression: string) {
-    const now = new Date();
-    return setExpressionsHistory({
-        dateTime: now.toISOString(),
-        expression: expression
-    });
-}

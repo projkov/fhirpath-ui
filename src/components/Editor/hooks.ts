@@ -1,17 +1,56 @@
 import axios from "axios";
 import { useEffect, useState, useMemo } from "react";
 import { toast } from 'react-toastify';
-import { reqWrapper } from "./utils/requests";
-import { getFromLocalStorage } from "./utils/storage"
-import { SettingItem } from './containers/Settings/types'
-import { addHistoryItem } from './containers/HistoryContainer/utils'
-import { SettingsKey, StorageKey } from './consts';
-import { detectFormat, convertYAMLToJSON, convertJSONToYAML } from './utils/format';
+import { reqWrapper } from "../../utils/requests";
+import { getFromLocalStorage } from "../..//utils/storage"
+import { SettingItem } from '../../containers/Settings/types'
+import { addHistoryItem } from '../../containers/HistoryContainer/utils'
+import { SettingsKey, StorageKey } from '../../consts';
+import { FHIRPathUIEditorProps } from './types';
 
+const yaml = require('js-yaml');
 const fhirpath = require('fhirpath');
 const fhirpath_r4_model = require('fhirpath/fhir-context/r4');
 
-export function useFHIRPathUI() {
+const convertJSONToYAML = (jsonString: string): string => {
+    try {
+        const jsonObject = JSON.parse(jsonString);
+        return yaml.dump(jsonObject);
+    } catch (error) {
+        console.error('Error converting JSON to YAML:', error);
+        return '';
+    }
+};
+
+const convertYAMLToJSON = (yamlString: string): string => {
+    try {
+        const parsed = yaml.load(yamlString);
+        return JSON.stringify(parsed, null, 2);
+    } catch (error) {
+        console.error('Error converting YAML to JSON:', error);
+        return '';
+    }
+};
+
+type Format = 'json' | 'yaml' | 'invalid';
+
+const detectFormat = (input: string): Format => {
+    try {
+        JSON.parse(input);
+        return 'json';
+    } catch {
+        try {
+            const result = yaml.load(input);
+            if (typeof result === 'object') return 'yaml';
+        } catch {
+            return 'invalid';
+        }
+    }
+    return 'invalid';
+};
+
+
+export function useFHIRPathUI(): FHIRPathUIEditorProps {
     const [url, setUrl] = useState<string>('');
     const [requestStatus, setRequestStatus] = useState<'success' | 'error' | 'not-asked'>('not-asked')
     const [resource, setResource] = useState<string>('');
@@ -114,7 +153,6 @@ export function useFHIRPathUI() {
     const testResource = useMemo(() => {
         const detectedFormat = detectFormat(resource);
         const selectedFormat = resourceFormat
-        console.log('hello World')
 
         if (detectedFormat === selectedFormat) {
             return resource
@@ -127,8 +165,6 @@ export function useFHIRPathUI() {
         }
 
     }, [resource, resourceFormat])
-
-    console.log('testREsource', testResource)
 
     return {
         resource,
