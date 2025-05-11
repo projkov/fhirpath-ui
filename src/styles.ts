@@ -8,6 +8,7 @@ const headerStyle: CSSProperties = {
     justifyContent: 'flex-start',
     gap: '8px',
     borderBottom: '1px solid #e0e0e0',
+    paddingLeft: 8,
 };
 
 const contentStyle: CSSProperties = {
@@ -55,8 +56,6 @@ const expressionEditorWrapper: CSSProperties = {
     display: 'flex',
     flexDirection: 'column',
     gap: '16px',
-    paddingLeft: '16px',
-    paddingRight: '16px'
 };
 
 const resourceBlockWrapper: CSSProperties = {

@@ -26,7 +26,7 @@ export function ResourceContainer(props: FHIRPathUIEditorProps) {
                 onSearch={onSearch}
             />
             <Editor
-                height="72vh"
+                height="85vh"
                 key={resourceFormat}
                 defaultLanguage={resourceFormat}
                 value={resource}
