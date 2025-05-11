@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/fhirpath-ui/static/css/main.f5f18c5b.css",
-    "main.js": "/fhirpath-ui/static/js/main.0a882c94.js",
+    "main.css": "/fhirpath-ui/static/css/main.394c95bf.css",
+    "main.js": "/fhirpath-ui/static/js/main.72e39457.js",
     "static/js/453.077f894f.chunk.js": "/fhirpath-ui/static/js/453.077f894f.chunk.js",
     "index.html": "/fhirpath-ui/index.html",
-    "main.f5f18c5b.css.map": "/fhirpath-ui/static/css/main.f5f18c5b.css.map",
-    "main.0a882c94.js.map": "/fhirpath-ui/static/js/main.0a882c94.js.map",
+    "main.394c95bf.css.map": "/fhirpath-ui/static/css/main.394c95bf.css.map",
+    "main.72e39457.js.map": "/fhirpath-ui/static/js/main.72e39457.js.map",
     "453.077f894f.chunk.js.map": "/fhirpath-ui/static/js/453.077f894f.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.f5f18c5b.css",
-    "static/js/main.0a882c94.js"
+    "static/css/main.394c95bf.css",
+    "static/js/main.72e39457.js"
   ]
 }
