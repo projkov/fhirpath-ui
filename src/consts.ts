@@ -1,8 +1,6 @@
 export const enum StorageKey {
-    Requests = "FHIRPathUIRequests",
-    Expressions = "FHIRPathUIExpressions",
     Settings = "FHIRPathUISettings",
-    Executions = "FHIRPathUIExecutions"
+    Entities = "FHIRPathUIEntities",
 }
 
 export const enum SettingsKey {

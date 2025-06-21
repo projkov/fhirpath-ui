@@ -6,9 +6,10 @@ import { FHIRPathUIEditorProps } from '../types';
 import { styles } from '../../../styles';
 
 export function ExpressionContainer(props: FHIRPathUIEditorProps) {
-    const { handleExecute, resource, expression, isExecuteActive, setExpression } = props;
-    const onClick = () => handleExecute(resource, expression)
-    const onChange = (value: string | undefined) => setExpression(value ?? "")
+    const { handleExecute, isExecuteActive, entity, setEntity } = props;
+    const onClick = () => handleExecute(entity.response ?? '', entity.expression ?? '')
+    const onChange = (
+        value: string | undefined) => setEntity({ ...entity, ...{ expression: value ?? "" } });
     const editorOptions = {
         formatOnPaste: true,
         formatOnType: true,
@@ -30,7 +31,7 @@ export function ExpressionContainer(props: FHIRPathUIEditorProps) {
             </div>
             <Editor
                 defaultLanguage="ruby"
-                value={expression}
+                value={entity.expression}
                 onChange={onChange}
                 options={editorOptions}
             />

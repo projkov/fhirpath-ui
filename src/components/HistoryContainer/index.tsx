@@ -1,44 +1,47 @@
 import moment from 'moment';
 import { List, Button, Space, Tag, Typography, Popover } from 'antd';
 import { getExecutionsHistory } from '../../containers/HistoryContainer/utils';
-import { ExecutionItem } from '../../containers/HistoryContainer/types';
 import { styles } from '../../styles';
-import { detectFormat, convertToFormat } from '../../utils/format';
+import { convertToFormat } from '../../utils/format';
 import {
     MinusCircleOutlined,
 } from '@ant-design/icons';
+import {ServiceEntity} from "../../types";
 
 const { Text } = Typography;
 
 export interface HistoryContainerItemProps {
-    item: ExecutionItem;
-    setResource: (v: string) => void;
-    setUrl: (v: string) => void;
-    setExpression: (v: string) => void;
+    entity: ServiceEntity;
+    setEntity: (v: ServiceEntity) => void;
 }
 
 function HistoryContainerItem(props: HistoryContainerItemProps) {
-    const { item, setResource, setUrl, setExpression } = props;
-    const { response, url, expression, status, requestType } = item;
-    const formattedDate = moment(item.dateTime).format('YYYY-MM-DD HH:mm')
+    const { entity, setEntity } = props;
+    const { response, url, expression, status, requestType } = entity;
+    const formattedDate = moment(entity.dateTime).format('YYYY-MM-DD HH:mm')
     const onClick = () => {
-        setResource(response);
-        setUrl(url);
-        setExpression(expression);
+        setEntity({
+            ...entity,
+            ...{
+                response: response,
+                url: url,
+                expression: expression,
+            }
+        })
     }
     const truncateToPreview = (text: string, maxLength = 35): string => {
         return text.length <= maxLength ? text : text.slice(0, maxLength) + '...';
     }
     const content = (
         <div style={{ maxWidth: 500 }}>
-            <p><code>{status === "not-asked" ? truncateToPreview(convertToFormat(response, 'json'), 1000) : url}</code></p>
+            <p><code>{status === "not-asked" ? truncateToPreview(convertToFormat(response ?? '', 'json'), 1000) : url}</code></p>
             <p><code>{expression}</code></p>
         </div>
     );
 
     const itemContent = status === "not-asked" ?
-        { tagColor: "default", tagIcon: <MinusCircleOutlined />, tagText: '', previewText: JSON.parse(convertToFormat(response, 'json'))?.['resourceType'] } :
-        { tagColor: status, tagIcon: null, tagText: requestType.toUpperCase(), previewText: url }
+        { tagColor: "default", tagIcon: <MinusCircleOutlined />, tagText: '', previewText: JSON.parse(convertToFormat(response ?? '', 'json'))?.['resourceType'] } :
+        { tagColor: status, tagIcon: null, tagText: requestType?.toUpperCase(), previewText: url }
 
     return (
         <Space>
@@ -52,15 +55,14 @@ function HistoryContainerItem(props: HistoryContainerItemProps) {
 }
 
 
-export function HistoryContainer(props: Omit<HistoryContainerItemProps, "item">) {
-    const renderItem = (item: ExecutionItem) => {
+export function HistoryContainer(props: HistoryContainerItemProps) {
+    const renderItem = (entity: ServiceEntity) => {
         return (
             <List.Item>
                 <HistoryContainerItem
-                    item={item}
-                    setResource={props.setResource}
-                    setUrl={props.setUrl}
-                    setExpression={props.setExpression} />
+                    entity={entity}
+                    setEntity={props.setEntity}
+                />
             </List.Item>
         );
     }

@@ -4,9 +4,10 @@ import { FHIRPathUIEditorProps } from '../types';
 import { styles } from '../../../styles';
 
 export function ResourceContainer(props: FHIRPathUIEditorProps) {
-    const { url, handleUrlChange, handleFetch, resourceFormat, setResource, resource } = props;
-    const onSearch = () => handleFetch(url);
-    const onChange = (value: string | undefined) => setResource(value ?? "");
+    const { handleUrlChange, handleFetch, resourceFormat, entity, setEntity } = props;
+    const onSearch = () => handleFetch(entity.url ?? "");
+    const onChange = (
+        value: string | undefined) => setEntity({ ...entity, ...{ response: value ?? "" } });
     const editorOptions = {
         formatOnPaste: true,
         formatOnType: true
@@ -20,7 +21,7 @@ export function ResourceContainer(props: FHIRPathUIEditorProps) {
                 allowClear
                 enterButton="Request"
                 size="middle"
-                value={url}
+                value={entity.url}
                 loading={props.isLoading}
                 onChange={handleUrlChange}
                 onSearch={onSearch}
@@ -29,7 +30,7 @@ export function ResourceContainer(props: FHIRPathUIEditorProps) {
                 height="85vh"
                 key={resourceFormat}
                 defaultLanguage={resourceFormat}
-                value={resource}
+                value={entity.response}
                 onChange={onChange}
                 options={editorOptions}
             />

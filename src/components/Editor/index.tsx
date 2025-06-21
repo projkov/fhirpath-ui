@@ -11,11 +11,9 @@ export function FHIRPathUIEditor(props: FHIRPathUIEditorProps) {
     return (
         <Allotment defaultSizes={[550, 250]}>
             <ResourceContainer {...props} />
-            <div style={styles.expressionAndResultContainer}>
-                <Allotment defaultSizes={[100, 300]} vertical>
-                    <ExpressionContainer {...props} />
-                    <ResultContainer {...props} />
-                </Allotment>
+            <div>
+                <ExpressionContainer {...props} />
+                <ResultContainer {...props} />
             </div>
         </Allotment>
     );

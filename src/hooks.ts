@@ -4,28 +4,26 @@ import { toast } from 'react-toastify';
 import { reqWrapper } from "./utils/requests";
 import { getFromLocalStorage } from "./utils/storage"
 import { SettingItem } from './containers/Settings/types'
-import { addHistoryItem } from './containers/HistoryContainer/utils'
+import {
+    addEntity,
+    createInitialEntity,
+    isExecuteActive,
+    isGetResourceActive, isShareActive, isShareResultActive
+} from './containers/HistoryContainer/utils'
 import { SettingsKey, StorageKey } from './consts';
 import { detectFormat, convertYAMLToJSON, convertJSONToYAML } from './utils/format';
+import {ServiceEntity} from "./types";
 
 const fhirpath = require('fhirpath');
 const fhirpath_r4_model = require('fhirpath/fhir-context/r4');
 
 export function useFHIRPathUI() {
-    const [url, setUrl] = useState<string>('');
-    const [requestStatus, setRequestStatus] = useState<'success' | 'error' | 'not-asked'>('not-asked')
-    const [resource, setResource] = useState<string>('');
-    const [expression, setExpression] = useState<string>('');
-    const [result, setResult] = useState<any[]>([]);
-    const [shareLink, setShareLink] = useState<string>('');
+    const [entity, setEntity] = useState<ServiceEntity>(createInitialEntity());
     const [isLoading, setIsLoading] = useState<boolean>(false);
+
+    const [shareLink, setShareLink] = useState<string>('');
     const [initialRun, setInitialRun] = useState<boolean>(true); // Track initial run
-    const isGetResourceActive = url !== '';
-    const isExecuteActive = resource !== '' && expression !== '';
-    const isShareActive = url !== '' && expression !== '';
-    const isShareResultActive = result.length > 0
-    const showError = (message: string) => toast.error(message)
-    const showSuccess = (message: string) => toast.success(message)
+
     const authorizationHeader = getFromLocalStorage<Array<SettingItem>>(StorageKey.Settings)?.find((settingItem) => settingItem.id === SettingsKey.AUTH_HEADER)?.value as string
     const fetchHeaders = authorizationHeader
         ? { headers: { Authorization: authorizationHeader } }
@@ -37,24 +35,42 @@ export function useFHIRPathUI() {
         const result = await reqWrapper(axios.get(fetchUrl, fetchHeaders))
         const resultDataStr = resourceFormat === 'json' ? JSON.stringify(result.data, null, 2) : convertJSONToYAML(JSON.stringify(result.data));
         if (result.status === 'success') {
-            setResource(resultDataStr)
-            setRequestStatus('success');
+            setEntity({
+                ...entity,
+                ...{
+                    response: resultDataStr,
+                    status: 'success',
+                }
+            })
         } else {
-            showError(result.error);
-            setRequestStatus('error');
+            setEntity({
+                ...entity,
+                ...{
+                    error: result.error,
+                    status: 'error',
+                }
+            })
         }
         setIsLoading(false);
     };
 
     const handleExecute = async (executeResource: string, executeExpression: string) => {
         setIsLoading(true);
+        const now = new Date();
         try {
             const parsed = JSON.parse(resourceFormat === 'json' ? executeResource : convertYAMLToJSON(executeResource));
             const result = fhirpath.evaluate(parsed, executeExpression, null, fhirpath_r4_model);
-            setResult(result);
-            addHistoryItem(url, requestStatus, resource, executeExpression);
+            setEntity({
+                ...entity,
+                ...{
+                    result: result,
+                    status: 'success',
+                    dateTime: now.toISOString(),
+                }
+            })
+            addEntity(entity);
         } catch (err: any) {
-            showError(err?.message || String(err));
+            toast.error(err?.message || String(err));
             console.error('Execution error:', err);
         } finally {
             setIsLoading(false);
@@ -63,24 +79,30 @@ export function useFHIRPathUI() {
 
     const copyToClipboard = (toCopy: string, successMessage: string, errorMessage: string) => {
         navigator.clipboard.writeText(toCopy).then(() => {
-            showSuccess(successMessage);
+            toast.success(successMessage);
         }).catch(err => {
-            showError(errorMessage + " " + err);
+            toast.error(errorMessage + " " + err);
         });
     }
 
     const handleShare = () => {
         const currentUrl = window.location.href.split('?')[0];
-        const shareUrl = `${currentUrl}?url=${encodeURIComponent(url)}&expression=${encodeURIComponent(expression)}`;
+        const shareUrl = `${currentUrl}?url=${encodeURIComponent(entity.url ?? '')}&expression=${encodeURIComponent(entity.expression ?? '')}`;
         setShareLink(shareUrl);
         copyToClipboard(shareUrl, "Link copied to clipboard!", "Could not copy text")
     };
 
     const handleShareResult = () => {
-        copyToClipboard(result.map((resItem) => JSON.stringify(resItem)).join(', '), "Result copied to clipboard!", "Could not copy result")
+        const result = entity.result?.map(
+            (resItem) => JSON.stringify(resItem)).join(', ') ?? '';
+
+        copyToClipboard(
+            result,
+            "Result copied to clipboard!",
+            "Could not copy result")
     }
 
-    const handleUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => setUrl(e.target.value);
+    const handleUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => setEntity({...entity, ...{url: e.target.value}});
 
     const getUrlParams = (name: string): string | null => {
         const params = new URLSearchParams(window.location.search);
@@ -95,8 +117,13 @@ export function useFHIRPathUI() {
             const decodedUrl = decodeURIComponent(urlFromParams);
             const decodedExpression = decodeURIComponent(expressionFromParams);
 
-            setUrl(decodedUrl);
-            setExpression(decodedExpression);
+            setEntity({
+                ...entity,
+                ...{
+                    url: decodedUrl,
+                    expression: decodedExpression,
+                }
+            })
 
             handleFetch(decodedUrl);
         }
@@ -104,50 +131,42 @@ export function useFHIRPathUI() {
     }, []);
 
     useEffect(() => {
-        if (initialRun && resource && expression && getUrlParams('url') && getUrlParams('expression')) {
-            handleExecute(resource, expression);
+        if (initialRun && entity.response && entity.expression && getUrlParams('url') && getUrlParams('expression')) {
+            handleExecute(entity.response, entity.expression);
             setInitialRun(false);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [resource, expression, initialRun]);
+    }, [entity.response, entity.expression, initialRun]);
 
     const testResource = useMemo(() => {
-        const detectedFormat = detectFormat(resource);
+        const detectedFormat = detectFormat(entity.response ?? '');
         const selectedFormat = resourceFormat
-        console.log('hello World')
 
         if (detectedFormat === selectedFormat) {
-            return resource
+            return entity.response
         } else {
             if (detectedFormat === 'json') {
-                convertJSONToYAML(resource);
+                convertJSONToYAML(entity.response ?? '');
             } else {
-                convertYAMLToJSON(resource);
+                convertYAMLToJSON(entity.response ?? '');
             }
         }
 
-    }, [resource, resourceFormat])
-
-    console.log('testREsource', testResource)
+    }, [entity.response, resourceFormat])
 
     return {
-        resource,
-        expression,
-        url,
-        setUrl,
-        result,
+        entity,
+        setEntity,
         shareLink,
         handleFetch,
         handleExecute,
         handleShare,
         handleUrlChange,
-        setResource,
-        setExpression,
         isLoading,
-        isExecuteActive,
-        isGetResourceActive,
-        isShareActive,
-        isShareResultActive,
+        isExecuteActive: isExecuteActive(entity),
+        isGetResourceActive: isGetResourceActive(entity),
+        isShareActive: isShareActive(entity),
+        isShareResultActive: isShareResultActive(entity),
         handleShareResult,
         copyToClipboard,
         resourceFormat,

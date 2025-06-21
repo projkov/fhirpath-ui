@@ -1,14 +1,14 @@
 import { getFromLocalStorage, setToLocalStorage } from "../../utils/storage"
-import { ExecutionItem } from './types';
 import { SettingItem } from '../Settings/types';
 import { StorageKey, SettingsKey } from '../../consts';
+import {ServiceEntity} from "../../types";
 
-function sortHistoryItem(items?: Array<ExecutionItem>) {
+function sortHistoryItem(items?: Array<ServiceEntity>) {
     return items ? items.sort((a, b) => new Date(b.dateTime).getTime() - new Date(a.dateTime).getTime()) : []
 }
 
 export function getExecutionsHistory() {
-    return sortHistoryItem(getFromLocalStorage<Array<ExecutionItem>>(StorageKey.Executions));
+    return sortHistoryItem(getFromLocalStorage<Array<ServiceEntity>>(StorageKey.Entities));
 }
 
 function updateHistory<T>(key: string, newItem: T) {
@@ -21,15 +21,27 @@ function updateHistory<T>(key: string, newItem: T) {
     setToLocalStorage(key, trimmedData);
 }
 
-export function addHistoryItem(url: string, status: string, data: string, expression: string) {
+export function createInitialEntity(): ServiceEntity {
     const now = new Date();
-    return updateHistory(StorageKey.Executions, {
+    return {
         dateTime: now.toISOString(),
-        url: url,
-        status: status,
-        response: data,
-        expression: expression,
+        status: 'not-asked',
+        error: '',
+        response: '',
+        expression: '',
         requestType: 'get'
-    });
+    }
 }
 
+export function addEntity(entity: ServiceEntity) {
+    return updateHistory<ServiceEntity>(StorageKey.Entities, entity);
+}
+
+export const isGetResourceActive = (
+    entity: ServiceEntity): boolean => entity.url !== '';
+export const isExecuteActive = (
+    entity: ServiceEntity): boolean => entity.response !== '' && entity.expression !== '';
+export const isShareActive = (
+    entity: ServiceEntity): boolean => entity.url !== '' && entity.expression !== '';
+export const isShareResultActive= (
+    entity: ServiceEntity): boolean => entity.result !== undefined;

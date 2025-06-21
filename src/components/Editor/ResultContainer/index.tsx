@@ -7,7 +7,7 @@ import { List } from "antd";
 
 export function ResultContainer(props: FHIRPathUIEditorProps) {
     return (
-        <div style={{ padding: '16px' }}>
+        <div style={{ padding: '16px'}}>
             <div style={styles.contextActions}>
                 <Button
                     type="primary"
@@ -24,9 +24,12 @@ export function ResultContainer(props: FHIRPathUIEditorProps) {
                 </Button>
             </div>
             <List
-                style={{ overflow: 'hidden' }}
+                pagination={{
+                    position: 'bottom',
+                    align: 'center',
+                }}
                 size="small"
-                dataSource={props.result}
+                dataSource={props.entity.result}
                 renderItem={(item) => (
                     <List.Item>
                         <pre>{JSON.stringify(item, null, 2)}</pre>

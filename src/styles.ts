@@ -51,15 +51,14 @@ const editorWrapper: CSSProperties = {
 };
 
 const expressionEditorWrapper: CSSProperties = {
-    height: '100vh',
     overflow: 'hidden',
     display: 'flex',
     flexDirection: 'column',
     gap: '16px',
+    height: '300px'
 };
 
 const resourceBlockWrapper: CSSProperties = {
-    height: '100vh',
     overflow: 'hidden',
     display: 'flex',
     flexDirection: 'column',
