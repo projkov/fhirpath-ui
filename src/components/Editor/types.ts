@@ -3,6 +3,11 @@ import {ServiceEntity} from "../../types";
 export interface FHIRPathUIEditorProps {
     entity: ServiceEntity;
     setEntity: (v: ServiceEntity) => void;
+    tabs: ServiceEntity[];
+    activeTabId: string;
+    onAddTab: () => void;
+    onCloseTab: (id: string) => void;
+    onSwitchTab: (id: string) => void;
     shareLink: string;
     handleUrlChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     handleFetch: (v: string) => void;

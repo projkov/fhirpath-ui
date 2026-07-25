@@ -2,43 +2,122 @@ import axios from "axios";
 import { useEffect, useState, useMemo } from "react";
 import { toast } from 'react-toastify';
 import { reqWrapper } from "./utils/requests";
-import { getFromLocalStorage } from "./utils/storage"
-import { SettingItem } from './containers/Settings/types'
+import { getFromLocalStorage, setToLocalStorage } from "./utils/storage"
 import {
     addEntity,
     createInitialEntity,
     isExecuteActive,
     isGetResourceActive, isShareActive, isShareResultActive
 } from './containers/HistoryContainer/utils'
-import { SettingsKey, StorageKey } from './consts';
+import { StorageKey } from './consts';
 import { detectFormat, convertYAMLToJSON, convertJSONToYAML } from './utils/format';
 import {ServiceEntity} from "./types";
 
 const fhirpath = require('fhirpath');
 const fhirpath_r4_model = require('fhirpath/fhir-context/r4');
 
+interface Workspace {
+    tabs: ServiceEntity[];
+    activeTabId: string;
+}
+
+function dedupeTabsById(tabs: ServiceEntity[]): ServiceEntity[] {
+    const seen = new Set<string>();
+    return tabs.filter((tab) => {
+        if (!tab.id || seen.has(tab.id)) {
+            return false;
+        }
+        seen.add(tab.id);
+        return true;
+    });
+}
+
+function createInitialWorkspace(): Workspace {
+    const saved = getFromLocalStorage<Workspace>(StorageKey.Workspace);
+    const dedupedTabs = saved?.tabs?.length ? dedupeTabsById(saved.tabs) : [];
+    if (dedupedTabs.length) {
+        const activeTabId = dedupedTabs.some((t) => t.id === saved!.activeTabId)
+            ? saved!.activeTabId
+            : dedupedTabs[0].id;
+        return { tabs: dedupedTabs, activeTabId };
+    }
+    const initial = createInitialEntity();
+    return { tabs: [initial], activeTabId: initial.id };
+}
+
 export function useFHIRPathUI() {
-    const [entity, setEntity] = useState<ServiceEntity>(createInitialEntity());
+    const [workspace, setWorkspace] = useState<Workspace>(createInitialWorkspace);
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const [shareLink, setShareLink] = useState<string>('');
     const [initialRun, setInitialRun] = useState<boolean>(true); // Track initial run
 
-    const authorizationHeader = getFromLocalStorage<Array<SettingItem>>(StorageKey.Settings)?.find((settingItem) => settingItem.id === SettingsKey.AUTH_HEADER)?.value as string
-    const fetchHeaders = authorizationHeader
-        ? { headers: { Authorization: authorizationHeader } }
-        : {};
-    const resourceFormat = getFromLocalStorage<Array<SettingItem>>(StorageKey.Settings)?.find((settingItem) => settingItem.id === SettingsKey.RES_OUTPUT_FORMAT)?.value as string
+    const { tabs, activeTabId } = workspace;
+    const entity = tabs.find((t) => t.id === activeTabId) ?? tabs[0];
+
+    useEffect(() => {
+        setToLocalStorage(StorageKey.Workspace, workspace);
+    }, [workspace]);
+
+    const setEntity = (updated: ServiceEntity) => {
+        setWorkspace((prev) => ({
+            ...prev,
+            tabs: prev.tabs.map((t) => (t.id === prev.activeTabId ? updated : t)),
+        }));
+    };
+
+    const addTab = () => {
+        const newEntity = createInitialEntity();
+        setWorkspace((prev) => ({
+            tabs: [...prev.tabs, newEntity],
+            activeTabId: newEntity.id,
+        }));
+    };
+
+    const closeTab = (id: string) => {
+        setWorkspace((prev) => {
+            if (prev.tabs.length <= 1) {
+                return prev;
+            }
+            const index = prev.tabs.findIndex((t) => t.id === id);
+            const newTabs = prev.tabs.filter((t) => t.id !== id);
+            if (newTabs.length === 0) {
+                return prev;
+            }
+            let newActiveTabId = prev.activeTabId;
+            if (prev.activeTabId === id) {
+                const fallbackIndex = Math.min(Math.max(index - 1, 0), newTabs.length - 1);
+                newActiveTabId = newTabs[fallbackIndex]?.id ?? newTabs[0].id;
+            }
+            return { tabs: newTabs, activeTabId: newActiveTabId };
+        });
+    };
+
+    const switchTab = (id: string) => {
+        setWorkspace((prev) => ({ ...prev, activeTabId: id }));
+    };
+
+    const resourceFormat: 'json' | 'yaml' = 'json';
+
+    const customHeaders = (entity.headers ?? [])
+        .filter((header) => header.enabled && header.key.trim() !== '')
+        .reduce<Record<string, string>>((acc, header) => {
+            acc[header.key] = header.value;
+            return acc;
+        }, {});
+    const fetchHeaders = Object.keys(customHeaders).length > 0 ? { headers: customHeaders } : {};
 
     const handleFetch = async (fetchUrl: string) => {
         setIsLoading(true);
         const result = await reqWrapper(axios.get(fetchUrl, fetchHeaders))
-        const resultDataStr = resourceFormat === 'json' ? JSON.stringify(result.data, null, 2) : convertJSONToYAML(JSON.stringify(result.data));
+        const rawResponseStr = JSON.stringify(result.data, null, 2);
+        const resultDataStr = resourceFormat === 'json' ? rawResponseStr : convertJSONToYAML(JSON.stringify(result.data));
         if (result.status === 'success') {
             setEntity({
                 ...entity,
                 ...{
                     response: resultDataStr,
+                    rawResponse: rawResponseStr,
                     status: 'success',
                 }
             })
@@ -140,23 +219,20 @@ export function useFHIRPathUI() {
 
     const testResource = useMemo(() => {
         const detectedFormat = detectFormat(entity.response ?? '');
-        const selectedFormat = resourceFormat
-
-        if (detectedFormat === selectedFormat) {
+        if (detectedFormat === resourceFormat) {
             return entity.response
-        } else {
-            if (detectedFormat === 'json') {
-                convertJSONToYAML(entity.response ?? '');
-            } else {
-                convertYAMLToJSON(entity.response ?? '');
-            }
         }
-
-    }, [entity.response, resourceFormat])
+        return convertYAMLToJSON(entity.response ?? '');
+    }, [entity.response])
 
     return {
         entity,
         setEntity,
+        tabs,
+        activeTabId,
+        addTab,
+        closeTab,
+        switchTab,
         shareLink,
         handleFetch,
         handleExecute,
