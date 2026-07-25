@@ -1,10 +1,11 @@
 import moment from 'moment';
-import { List, Button, Space, Tag, Typography, Popover } from 'antd';
-import { getExecutionsHistory } from '../../containers/HistoryContainer/utils';
+import { useState } from 'react';
+import { List, Button, Space, Tag, Typography, Popconfirm } from 'antd';
+import { getExecutionsHistory, removeEntity } from '../../containers/HistoryContainer/utils';
 import { styles } from '../../styles';
-import { convertToFormat } from '../../utils/format';
 import {
     MinusCircleOutlined,
+    DeleteOutlined,
 } from '@ant-design/icons';
 import {ServiceEntity} from "../../types";
 
@@ -15,53 +16,97 @@ export interface HistoryContainerItemProps {
     setEntity: (v: ServiceEntity) => void;
 }
 
-function HistoryContainerItem(props: HistoryContainerItemProps) {
-    const { entity, setEntity } = props;
-    const { response, url, expression, status, requestType } = entity;
-    const formattedDate = moment(entity.dateTime).format('YYYY-MM-DD HH:mm')
+interface HistoryContainerRowProps {
+    entity: ServiceEntity;
+    setEntity: (v: ServiceEntity) => void;
+    isSelected: boolean;
+    onDelete: (dateTime: string) => void;
+}
+
+function HistoryContainerItem(props: HistoryContainerRowProps) {
+    const { entity, setEntity, isSelected, onDelete } = props;
+    const { url, expression, status, requestType, dateTime } = entity;
+    const formattedDate = moment(dateTime).format('YYYY-MM-DD HH:mm')
+
     const onClick = () => {
         setEntity({
             ...entity,
             ...{
-                response: response,
-                url: url,
-                expression: expression,
+                url,
+                expression,
+                dateTime,
             }
         })
     }
-    const truncateToPreview = (text: string, maxLength = 35): string => {
-        return text.length <= maxLength ? text : text.slice(0, maxLength) + '...';
-    }
-    const content = (
-        <div style={{ maxWidth: 500 }}>
-            <p><code>{status === "not-asked" ? truncateToPreview(convertToFormat(response ?? '', 'json'), 1000) : url}</code></p>
-            <p><code>{expression}</code></p>
-        </div>
-    );
 
-    const itemContent = status === "not-asked" ?
-        { tagColor: "default", tagIcon: <MinusCircleOutlined />, tagText: '', previewText: JSON.parse(convertToFormat(response ?? '', 'json'))?.['resourceType'] } :
-        { tagColor: status, tagIcon: null, tagText: requestType?.toUpperCase(), previewText: url }
+    const tagColor = status === "not-asked" ? "default" : status;
+    const tagIcon = status === "not-asked" ? <MinusCircleOutlined /> : null;
+    const tagText = status === "not-asked" ? '' : requestType?.toUpperCase();
 
     return (
-        <Space>
-            <Tag color={itemContent.tagColor} icon={itemContent.tagIcon}>{itemContent.tagText}</Tag>
-            <Text type="secondary" style={{ fontSize: '12px' }}>{formattedDate}</Text>
-            <Popover content={content}>
-                <Button type="link" onClick={onClick}>{truncateToPreview(itemContent.previewText)}</Button>
-            </Popover>
-        </Space>
+        <div
+            className="history-item"
+            onClick={onClick}
+            style={{
+                ...styles.historyItem,
+                ...(isSelected ? styles.historyItemSelected : {}),
+            }}
+        >
+            <div style={styles.historyItemHeader}>
+                <Space size="small">
+                    <Tag color={tagColor} icon={tagIcon}>{tagText}</Tag>
+                    <Text type="secondary" style={{ fontSize: '12px' }}>{formattedDate}</Text>
+                </Space>
+                <Popconfirm
+                    title="Delete this history entry?"
+                    onConfirm={() => onDelete(dateTime)}
+                    onPopupClick={(e) => e.stopPropagation()}
+                >
+                    <Button
+                        className="history-item-delete"
+                        type="text"
+                        size="small"
+                        icon={<DeleteOutlined />}
+                        onClick={(e) => e.stopPropagation()}
+                    />
+                </Popconfirm>
+            </div>
+            <Text
+                ellipsis={{ tooltip: expression || undefined }}
+                style={{
+                    ...styles.historyItemExpression,
+                    ...(expression ? {} : { color: 'rgba(0, 0, 0, 0.45)', fontStyle: 'italic' }),
+                }}
+            >
+                {expression || 'No expression yet'}
+            </Text>
+            <Text
+                ellipsis={{ tooltip: url || undefined }}
+                type="secondary"
+                style={styles.historyItemUrl}
+            >
+                {url || 'No URL'}
+            </Text>
+        </div>
     );
 }
 
-
 export function HistoryContainer(props: HistoryContainerItemProps) {
+    const [, setVersion] = useState(0);
+
+    const handleDelete = (dateTime: string) => {
+        removeEntity(dateTime);
+        setVersion((v) => v + 1);
+    };
+
     const renderItem = (entity: ServiceEntity) => {
         return (
             <List.Item>
                 <HistoryContainerItem
                     entity={entity}
                     setEntity={props.setEntity}
+                    isSelected={entity.dateTime === props.entity.dateTime}
+                    onDelete={handleDelete}
                 />
             </List.Item>
         );
