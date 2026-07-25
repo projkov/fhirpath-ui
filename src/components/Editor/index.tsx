@@ -1,20 +1,43 @@
-import { Allotment } from "allotment";
-import "allotment/dist/style.css";
-import 'react-toastify/dist/ReactToastify.css';
-import { ResultContainer } from './ResultContainer';
+import { Tabs } from 'antd';
+import type { TabsProps } from 'antd';
+import { TabBar } from './TabBar';
+import { RequestBar } from './RequestBar';
 import { ExpressionContainer } from './ExpressionContainer';
 import { ResourceContainer } from './ResourceContainer';
+import { ResultContainer } from './ResultContainer';
 import { FHIRPathUIEditorProps } from './types';
 import { styles } from '../../styles';
 
 export function FHIRPathUIEditor(props: FHIRPathUIEditorProps) {
+    const tabItems: TabsProps['items'] = [
+        {
+            key: 'resource',
+            label: 'Resource',
+            children: <ResourceContainer {...props} />,
+        },
+        {
+            key: 'result',
+            label: 'Result',
+            children: <ResultContainer {...props} />,
+        },
+    ];
+
     return (
-        <Allotment defaultSizes={[550, 250]}>
-            <ResourceContainer {...props} />
-            <div>
-                <ExpressionContainer {...props} />
-                <ResultContainer {...props} />
-            </div>
-        </Allotment>
+        <div style={styles.editorWrapper}>
+            <TabBar
+                tabs={props.tabs}
+                activeTabId={props.activeTabId}
+                onAddTab={props.onAddTab}
+                onCloseTab={props.onCloseTab}
+                onSwitchTab={props.onSwitchTab}
+            />
+            <RequestBar {...props} />
+            <ExpressionContainer {...props} />
+            <Tabs
+                className="fhirpath-result-tabs"
+                style={styles.resultTabs}
+                items={tabItems}
+            />
+        </div>
     );
 }

@@ -1,16 +1,19 @@
 import 'react-toastify/dist/ReactToastify.css';
 import { FHIRPathUIEditor } from '../../components/Editor/';
 import { HistoryContainer } from '../../components/HistoryContainer';
-import { Layout } from 'antd';
+import { Splitter } from 'antd';
 import { styles } from '../../styles';
 import {useFHIRPathUI} from "../../hooks";
-
-const { Sider, Content } = Layout;
 
 export function AppContent() {
     const {
         entity,
         setEntity,
+        tabs,
+        activeTabId,
+        addTab,
+        closeTab,
+        switchTab,
         shareLink,
         handleFetch,
         handleExecute,
@@ -27,17 +30,22 @@ export function AppContent() {
         testResource } = useFHIRPathUI();
 
     return (
-        <Layout style={{ backgroundColor: '#f4f8fb' }}>
-            <Sider width="25%" style={styles.sider}>
+        <Splitter style={styles.appSplitter}>
+            <Splitter.Panel defaultSize="300px" min="220px" max="45%" collapsible style={styles.sider}>
                 <HistoryContainer
                     setEntity={setEntity}
                     entity={entity}
                 />
-            </Sider>
-            <Content style={styles.content}>
+            </Splitter.Panel>
+            <Splitter.Panel style={styles.content}>
                 <FHIRPathUIEditor
                     entity={entity}
                     setEntity={setEntity}
+                    tabs={tabs}
+                    activeTabId={activeTabId}
+                    onAddTab={addTab}
+                    onCloseTab={closeTab}
+                    onSwitchTab={switchTab}
                     shareLink={shareLink}
                     isLoading={isLoading}
                     handleExecute={handleExecute}
@@ -53,7 +61,7 @@ export function AppContent() {
                     isGetResourceActive={isGetResourceActive}
                     isShareActive={isShareActive}
                 />
-            </Content>
-        </Layout>
+            </Splitter.Panel>
+        </Splitter>
     );
 }

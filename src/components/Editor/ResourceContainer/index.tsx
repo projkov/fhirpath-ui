@@ -1,11 +1,10 @@
-import Editor from '@monaco-editor/react';
-import { Input } from 'antd';
+import Editor, { BeforeMount } from '@monaco-editor/react';
 import { FHIRPathUIEditorProps } from '../types';
 import { styles } from '../../../styles';
+import { registerFhirPathLanguage, FHIRPATH_THEME_ID } from '../../../monaco/fhirpathLanguage';
 
 export function ResourceContainer(props: FHIRPathUIEditorProps) {
-    const { handleUrlChange, handleFetch, resourceFormat, entity, setEntity } = props;
-    const onSearch = () => handleFetch(entity.url ?? "");
+    const { resourceFormat, entity, setEntity } = props;
     const onChange = (
         value: string | undefined) => setEntity({ ...entity, ...{ response: value ?? "" } });
     const editorOptions = {
@@ -13,25 +12,18 @@ export function ResourceContainer(props: FHIRPathUIEditorProps) {
         formatOnType: true
     };
 
+    const beforeMount: BeforeMount = (monaco) => registerFhirPathLanguage(monaco);
+
     return (
-        <div style={styles.resourceBlockWrapper}>
-            <Input.Search
-                addonBefore="GET"
-                placeholder="You can paste the URL to get the FHIR Resource"
-                allowClear
-                enterButton="Request"
-                size="middle"
-                value={entity.url}
-                loading={props.isLoading}
-                onChange={handleUrlChange}
-                onSearch={onSearch}
-            />
+        <div style={styles.tabPaneWrapper}>
             <Editor
-                height="85vh"
+                height="100%"
                 key={resourceFormat}
                 defaultLanguage={resourceFormat}
+                theme={FHIRPATH_THEME_ID}
                 value={entity.response}
                 onChange={onChange}
+                beforeMount={beforeMount}
                 options={editorOptions}
             />
         </div>

@@ -5,15 +5,34 @@ const headerStyle: CSSProperties = {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'flex-start',
-    gap: '8px',
+    justifyContent: 'space-between',
+    height: '56px',
+    lineHeight: '56px',
     borderBottom: '1px solid #e0e0e0',
-    paddingLeft: 8,
+    padding: '0 16px',
+};
+
+const headerBrand: CSSProperties = {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: '10px',
+};
+
+const headerTitle: CSSProperties = {
+    fontSize: '15px',
+};
+
+const headerVersion: CSSProperties = {
+    fontSize: '12px',
 };
 
 const contentStyle: CSSProperties = {
     textAlign: 'left',
-    flex: 1,
+    height: '100%',
+    minHeight: 0,
+    display: 'flex',
+    flexDirection: 'column',
     padding: '1rem',
     margin: '0.5rem',
     borderRadius: '0.75rem',
@@ -23,9 +42,16 @@ const contentStyle: CSSProperties = {
 
 const siderStyle: CSSProperties = {
     backgroundColor: '#f4f8fb',
+    height: '100%',
     overflowY: 'auto',
-    width: 300,
-    boxShadow: 'inset -1px 0 0 #e0e0e0',
+};
+
+const appSplitter: CSSProperties = {
+    flex: 1,
+    minHeight: 0,
+    height: '100%',
+    overflow: 'hidden',
+    backgroundColor: '#f4f8fb',
 };
 
 const footerStyle: CSSProperties = {
@@ -43,42 +69,146 @@ const layoutStyle: CSSProperties = {
 };
 
 const editorWrapper: CSSProperties = {
-    height: '100vh',
+    height: '100%',
+    minHeight: 0,
     overflow: 'hidden',
     display: 'flex',
     flexDirection: 'column',
-    gap: '16px',
+    gap: '12px',
 };
 
-const expressionEditorWrapper: CSSProperties = {
-    overflow: 'hidden',
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '16px',
-    height: '300px'
+const compactBar: CSSProperties = {
+    flexShrink: 0,
 };
 
-const resourceBlockWrapper: CSSProperties = {
-    overflow: 'hidden',
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '16px',
-    paddingRight: '16px',
-};
-
-const contextActions: CSSProperties = {
+const expressionBarShell: CSSProperties = {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'flex-end',
-    gap: '8px',
+    alignItems: 'stretch',
+    width: '100%',
+    height: '32px',
+    border: '1px solid #d9d9d9',
+    borderRadius: '6px',
+    overflow: 'hidden',
+    backgroundColor: '#fff',
+};
+
+const expressionBarLabel: CSSProperties = {
+    display: 'flex',
+    alignItems: 'center',
+    padding: '0 11px',
+    backgroundColor: '#fafafa',
+    borderRight: '1px solid #d9d9d9',
+    fontSize: '14px',
+    color: 'rgba(0, 0, 0, 0.45)',
+    whiteSpace: 'nowrap',
+    flexShrink: 0,
+};
+
+const expressionBarEditor: CSSProperties = {
+    flex: 1,
+    minWidth: 0,
+    height: '100%',
+    boxSizing: 'border-box',
+    padding: '0 11px',
+};
+
+const expressionBarExecute: CSSProperties = {
+    height: '100%',
+    borderRadius: 0,
+    border: 'none',
+    flexShrink: 0,
+};
+
+const headersPopoverContent: CSSProperties = {
+    width: '470px',
+    maxHeight: '320px',
+    overflowY: 'auto',
+};
+
+const resultTabs: CSSProperties = {
+    flex: 1,
+    minHeight: 0,
+    display: 'flex',
+    flexDirection: 'column',
+};
+
+const tabPaneWrapper: CSSProperties = {
+    height: '100%',
+    overflow: 'auto',
+};
+
+const resultToolbar: CSSProperties = {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: '8px',
+};
+
+const resultItem: CSSProperties = {
+    backgroundColor: '#f6f8fa',
+    border: '1px solid #e1e4e8',
+    borderRadius: '0.5rem',
+    padding: '8px 10px',
+};
+
+const resultItemHeader: CSSProperties = {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: '4px',
+};
+
+const resultItemCode: CSSProperties = {
+    margin: 0,
+    fontFamily: 'source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace',
+    fontSize: '13px',
+    whiteSpace: 'pre-wrap',
+    wordBreak: 'break-word',
 };
 
 const historyContainer: CSSProperties = {
     margin: '0.5rem',
-    padding: '1rem',
+    padding: '0.5rem',
     backgroundColor: '#ffffff',
     borderRadius: '0.75rem',
     boxShadow: '0 1px 3px rgba(0, 0, 0, 0.06)',
+};
+
+const historyItem: CSSProperties = {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '2px',
+    width: '100%',
+    padding: '6px 8px',
+    borderRadius: '0.5rem',
+    cursor: 'pointer',
+};
+
+const historyItemSelected: CSSProperties = {
+    backgroundColor: '#e6f4ff',
+};
+
+const historyItemHeader: CSSProperties = {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+};
+
+const historyItemExpression: CSSProperties = {
+    display: 'block',
+    maxWidth: '100%',
+    fontSize: '13px',
+    fontWeight: 500,
+};
+
+const historyItemUrl: CSSProperties = {
+    display: 'block',
+    maxWidth: '100%',
+    fontSize: '12px',
 };
 
 const editor: CSSProperties = {
@@ -95,24 +225,42 @@ const expressionAndResultContainer: CSSProperties = {
 };
 
 const logo: CSSProperties = {
-    width: '35px',
-    height: '35px',
+    width: '30px',
+    height: '30px',
     borderRadius: '0.5rem',
     objectFit: 'cover',
 };
 
 export const styles = {
     header: headerStyle,
+    headerBrand,
+    headerTitle,
+    headerVersion,
     content: contentStyle,
     sider: siderStyle,
+    appSplitter,
     footer: footerStyle,
     layout: layoutStyle,
     editorWrapper,
-    resourceBlockWrapper,
-    contextActions,
+    compactBar,
+    expressionBarShell,
+    expressionBarLabel,
+    expressionBarEditor,
+    expressionBarExecute,
+    headersPopoverContent,
     historyContainer,
+    historyItem,
+    historyItemSelected,
+    historyItemHeader,
+    historyItemExpression,
+    historyItemUrl,
     editor,
     expressionAndResultContainer,
     logo,
-    expressionEditorWrapper,
+    resultTabs,
+    tabPaneWrapper,
+    resultToolbar,
+    resultItem,
+    resultItemHeader,
+    resultItemCode,
 };
