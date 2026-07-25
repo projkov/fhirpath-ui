@@ -15,6 +15,7 @@ export interface ServiceEntity {
     requestType?: 'get' | 'post';
     dateTime: string;
     status?: 'success' | 'error' | 'not-asked';
+    statusCode?: number;
     error?: string;
     headers?: HeaderItem[];
 }

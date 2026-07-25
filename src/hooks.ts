@@ -119,6 +119,7 @@ export function useFHIRPathUI() {
                     response: resultDataStr,
                     rawResponse: rawResponseStr,
                     status: 'success',
+                    statusCode: result.statusCode,
                 }
             })
         } else {
@@ -127,6 +128,7 @@ export function useFHIRPathUI() {
                 ...{
                     error: result.error,
                     status: 'error',
+                    statusCode: result.statusCode,
                 }
             })
         }

@@ -5,6 +5,7 @@ import { RequestBar } from './RequestBar';
 import { ExpressionContainer } from './ExpressionContainer';
 import { ResourceContainer } from './ResourceContainer';
 import { ResultContainer } from './ResultContainer';
+import { ResponseStatus } from './ResponseStatus';
 import { FHIRPathUIEditorProps } from './types';
 import { styles } from '../../styles';
 
@@ -37,6 +38,7 @@ export function FHIRPathUIEditor(props: FHIRPathUIEditorProps) {
                 className="fhirpath-result-tabs"
                 style={styles.resultTabs}
                 items={tabItems}
+                tabBarExtraContent={<ResponseStatus statusCode={props.entity.statusCode} isLoading={props.isLoading} />}
             />
         </div>
     );

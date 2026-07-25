@@ -126,6 +126,12 @@ const headersPopoverContent: CSSProperties = {
     overflowY: 'auto',
 };
 
+const statusTag: CSSProperties = {
+    margin: 0,
+    fontWeight: 600,
+    flexShrink: 0,
+};
+
 const resultTabs: CSSProperties = {
     flex: 1,
     minHeight: 0,
@@ -248,6 +254,7 @@ export const styles = {
     expressionBarEditor,
     expressionBarExecute,
     headersPopoverContent,
+    statusTag,
     historyContainer,
     historyItem,
     historyItemSelected,
