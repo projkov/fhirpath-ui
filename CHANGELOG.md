@@ -1,3 +1,15 @@
+# 1.3.0
+## What's Changed
+* Redesigned the editor into a Postman-style layout with a request bar, syntax-highlighted FHIRPath input, and result cards
+* Added support for multiple browser-like tabs, so several requests and expressions can be kept open at once
+* Added per-tab custom request headers, replacing the global Settings panel
+* Added syntax highlighting for FHIRPath expressions and the FHIR resource editor
+* Added an HTTP response status indicator with color coding
+* Refreshed the history panel and about drawer styling
+* Upgraded to Ant Design v6
+
+**Full Changelog**: https://github.com/projkov/fhirpath-ui/compare/v1.2.0...v1.3.0
+
 # 1.2.0
 ## What's Changed
 * Added an ability to change resource window format (YAML or JSON)
